@@ -30,12 +30,10 @@ async def on_member_join(member: discord.Member):
 async def make_suggestion(ctx: discord.Interaction, feature_summary: str, feature: str, anonymous: bool):
     suggestion_channel = ctx.guild.get_channel(1145462208969588817)
 
-    try:
-        past_message = [message async for message in suggestion_channel.history(limit=1)][0]
-        title = past_message.embeds[0].title
-        counter = title[1:title.find(" ")+1]
-    except:
-        counter = 1
+    past_message = [message async for message in suggestion_channel.history(limit=1)][0]
+    title = past_message.embeds[0].title
+    counter = title[1:title.find(" ")+1]
+    counter = 1
 
     embed = discord.Embed(title=f"#{counter} " + feature_summary[:254], description=feature[:4096], color=color_theme)
     embed.timestamp = datetime.now()
