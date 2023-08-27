@@ -47,5 +47,7 @@ async def make_suggestion(ctx: discord.Interaction, feature_summary: str, featur
 
     await suggestion_channel.send(embed=embed)
 
+    await ctx.response.send_message("Suggestion created!", ephemeral=True)
+
 
 bot.run(TOKEN)
