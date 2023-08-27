@@ -32,7 +32,8 @@ async def make_suggestion(ctx: discord.Interaction, feature_summary: str, featur
 
     past_message = [message async for message in suggestion_channel.history(limit=1)][0]
     title = past_message.embeds[0].title
-    counter = title[1:title.find(" ")+1]
+    counter = int(title[1:title.find(" ")+1]) + 1
+
 
     embed = discord.Embed(title=f"#{counter} " + feature_summary[:254], description=feature[:4096], color=color_theme)
     embed.timestamp = datetime.now()
