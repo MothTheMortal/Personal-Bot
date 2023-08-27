@@ -39,7 +39,7 @@ async def make_suggestion(ctx: discord.Interaction, feature_summary: str, featur
     embed.timestamp = datetime.now()
     if not anonymous:
         try:
-            embed.set_author(name=ctx.user.name, url=ctx.user.avatar.url)
+            embed.set_author(name=ctx.user.name, icon_url=ctx.user.avatar.url)
         except:
             pass
 
