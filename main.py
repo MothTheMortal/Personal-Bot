@@ -12,8 +12,8 @@ bot = commands.Bot(intents=discord.Intents.all(), command_prefix="?!")
 
 @bot.event
 async def on_ready():
-    print(f"{bot.user.name} is online!")
-    print(f"{len(await bot.tree.sync())} commands loaded!")
+    print(f"{bot.user.name} is online.")
+    print(f"{len(await bot.tree.sync())} commands loaded.")
 
 
 @bot.event
