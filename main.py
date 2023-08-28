@@ -3,7 +3,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
 from datetime import datetime
-
+from discord.app_commands import Choice, choices
 load_dotenv()
 
 TOKEN = getenv("BOT_TOKEN")
@@ -27,6 +27,27 @@ async def on_member_join(member: discord.Member):
     else:
         member_role = member.guild.get_role(1145461173718896731)
         await member.add_roles(member_role, reason="New Member Role!")
+
+
+@bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
+@choices(gender=[Choice(name="Male", value="male"), Choice(name="Female", value="female")])
+async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice[str], age: int, birthday: str, games: str, hobbies: str, anything_note: str):
+    intro_channel = ctx.guild.get_channel(1145593789130473573)
+    names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
+
+    if ctx.user.name in names:
+        return await ctx.response.send_message("You have already introduced yourself!", ephemeral=True)
+
+    description = f"Name: {name}\nGender: {gender.name}\nAge: {age}\nBirthday: {birthday}\nGames: {games}\nHobbies: {hobbies}"
+    embed = discord.Embed(title=f"{ctx.user.name}'s Introduction", description=description, color=color_theme)
+    embed.add_field(name="Note:", value=anything_note[:1024])
+    embed.set_author(name=ctx.user.name, icon_url=ctx.user.avatar.url)
+    embed.timestamp = datetime.now()
+
+    await intro_channel.send(embed)
+
+    await ctx.response.send_message("Introduction sent!", ephemeral=True)
+
 
 
 @bot.tree.command(name="make-suggestion", description="Give a suggestion for a feature to add to the bot.")
