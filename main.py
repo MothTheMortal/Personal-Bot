@@ -1,3 +1,5 @@
+import os
+
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -36,24 +38,24 @@ async def on_member_join(member: discord.Member):
 async def tts(ctx: commands.Context, text: str):
     print("Running")
     channel = ctx.author.voice.channel
+
     if not channel:
         return
 
     voice_client = await channel.connect()
 
     audio = gTTS(text)
-    audio_data = io.BytesIO()
-    audio.save(audio_data)
-
-    data = io.BufferedRandom(audio_data)
-    audio_data.getbuffer()
+    audio.save("ttsaudio.mp3")
 
 
-    source = discord.FFmpegPCMAudio(data)
+
+
+    source = discord.FFmpegPCMAudio("ttsaudio.mp3")
     voice_client.play(source)
     while voice_client.is_playing():
         await asyncio.sleep(1)
     await voice_client.disconnect()
+    os.remove("ttsaudio.mp3")
 
 
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
