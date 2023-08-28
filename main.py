@@ -48,12 +48,12 @@ async def tts(ctx: commands.Context, language, *, text=None):
     
     async with tts_lock:
         channel = ctx.author.voice.channel
+
         if not channel:
             await ctx.send("You are not in a voice channel.")
-        try:
-            voice_client = await channel.connect()
-        except:
-            pass
+
+        voice_client = await channel.connect()
+
         try:
             audio = gTTS(text, lang=language)
             audio.save("ttsaudio.mp3")
