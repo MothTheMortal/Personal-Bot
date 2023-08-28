@@ -11,9 +11,11 @@ import io
 import asyncio
 load_dotenv()
 
+tts_lock = asyncio.Lock()
+
 TOKEN = getenv("BOT_TOKEN")
 
-bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".!")
+bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".")
 
 color_theme = 0x2fd034
 
@@ -36,26 +38,30 @@ async def on_member_join(member: discord.Member):
 
 @bot.command(name="tts")
 async def tts(ctx: commands.Context, *, text):
-    print("Running")
-    channel = ctx.author.voice.channel
 
-    if not channel:
+    if tts_lock.locked():
+        await ctx.send("The command is already running. Please wait.")
         return
+    
+    async with tts_lock:
+        channel = ctx.author.voice.channel
+        if not channel:
+            await ctx.send("You are not in a voice channel.")
 
-    voice_client = await channel.connect()
+        voice_client = await channel.connect()
 
-    audio = gTTS(text)
-    audio.save("ttsaudio.mp3")
-
-
+        audio = gTTS(text)
+        audio.save("ttsaudio.mp3")
 
 
-    source = discord.FFmpegPCMAudio("ttsaudio.mp3")
-    voice_client.play(source)
-    while voice_client.is_playing():
-        await asyncio.sleep(1)
-    await voice_client.disconnect()
-    os.remove("ttsaudio.mp3")
+
+
+        source = discord.FFmpegPCMAudio("ttsaudio.mp3")
+        voice_client.play(source)
+        while voice_client.is_playing():
+            await asyncio.sleep(1)
+        await voice_client.disconnect()
+        os.remove("ttsaudio.mp3")
 
 
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
