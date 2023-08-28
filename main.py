@@ -80,12 +80,10 @@ async def tts(ctx: commands.Context, *, text=None):
 
         voice_client = await channel.connect()
 
-        try:
-            audio = gTTS(text, lang=en)
-            audio.save("ttsaudio.mp3")
-        except:
-            await ctx.send("Unsupported language.")
-            await voice_client.disconnect()
+
+        audio = gTTS(text, lang="en")
+        audio.save("ttsaudio.mp3")
+
 
         source = discord.FFmpegPCMAudio("ttsaudio.mp3")
         voice_client.play(source)
