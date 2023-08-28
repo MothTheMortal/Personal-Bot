@@ -37,7 +37,7 @@ async def on_member_join(member: discord.Member):
 
 
 @bot.command(name="tts")
-async def tts(ctx: commands.Context, *, text):
+async def tts(ctx: commands.Context, language, *, text):
 
     if tts_lock.locked():
         await ctx.send("The command is already running. Please wait.")
@@ -49,9 +49,11 @@ async def tts(ctx: commands.Context, *, text):
             await ctx.send("You are not in a voice channel.")
 
         voice_client = await channel.connect()
-
-        audio = gTTS(text, lang="ja")
-        audio.save("ttsaudio.mp3")
+        try:
+            audio = gTTS(text, lang=language)
+            audio.save("ttsaudio.mp3")
+        except:
+            return await ctx.send("Unsupported language.")
 
         source = discord.FFmpegPCMAudio("ttsaudio.mp3")
         voice_client.play(source)
