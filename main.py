@@ -39,7 +39,7 @@ async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice
     if ctx.user.name in names:
         return await ctx.response.send_message("You have already introduced yourself!", ephemeral=True)
 
-    description = f"Name: {name}\nGender: {gender.name}\nAge: {age}\nBirthday: {birthday}\nGames: {games}\nHobbies: {hobbies}"
+    description = f"**Name:** {name}\n**Gender:** {gender.name}\n**Age:** {age}\n**Birthday:** {birthday}\n**Games:** {games}\n**Hobbies:** {hobbies}"
     embed = discord.Embed(title=f"{ctx.user.name}'s Introduction", description=description, color=color_theme)
     embed.add_field(name="Note:", value=anything_note[:1024])
     embed.set_author(name=ctx.user.name, icon_url=ctx.user.avatar.url)
