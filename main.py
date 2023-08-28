@@ -46,7 +46,7 @@ async def tts(ctx: commands.Context, text: str):
     audio.save(audio_data)
     audio_data.seek(0)
 
-    source = discord.FFmpegPCMAudio(audio_data)
+    source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(audio_data))
     voice_client.play(source)
     while voice_client.is_playing():
         await asyncio.sleep(1)
