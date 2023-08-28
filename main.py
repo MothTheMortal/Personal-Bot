@@ -50,11 +50,8 @@ async def tts(ctx: commands.Context, *, text):
 
         voice_client = await channel.connect()
 
-        audio = gTTS(text)
+        audio = gTTS(text, lang="jp")
         audio.save("ttsaudio.mp3")
-
-
-
 
         source = discord.FFmpegPCMAudio("ttsaudio.mp3")
         voice_client.play(source)
