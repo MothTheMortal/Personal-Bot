@@ -31,6 +31,7 @@ async def on_member_join(member: discord.Member):
 
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
 @choices(gender=[Choice(name="Male", value="male"), Choice(name="Female", value="female")])
+@discord.app_commands.describe(birthday="DD/MM/YYYY Format.")
 async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice[str], age: int, birthday: str, games: str, hobbies: str, anything_note: str):
     intro_channel = ctx.guild.get_channel(1145593789130473573)
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
