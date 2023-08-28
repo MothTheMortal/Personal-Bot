@@ -36,12 +36,8 @@ async def on_member_join(member: discord.Member):
         await member.add_roles(member_role, reason="New Member Role!")
 
 
-@bot.command(name="tts")
-async def tts(ctx: commands.Context, language, *, text=None):
-    if text is None:
-        text = language
-        language = "en"
-
+@bot.command(name="ttsa")
+async def ttsa(ctx: commands.Context, language, *, text=None):
     if tts_lock.locked():
         await ctx.send("The command is already running. Please wait.")
         return
@@ -61,13 +57,42 @@ async def tts(ctx: commands.Context, language, *, text=None):
             await ctx.send("Unsupported language.")
             await voice_client.disconnect()
 
+        source = discord.FFmpegPCMAudio("ttsaaudio.mp3")
+        voice_client.play(source)
+        while voice_client.is_playing():
+            await asyncio.sleep(1)
+        await voice_client.disconnect()
+        os.remove("ttsaaudio.mp3")
+
+
+@bot.command(name="tts")
+async def tts(ctx: commands.Context, *, text=None):
+
+    if tts_lock.locked():
+        await ctx.send("The command is already running. Please wait.")
+        return
+
+    async with tts_lock:
+        channel = ctx.author.voice.channel
+
+        if not channel:
+            await ctx.send("You are not in a voice channel.")
+
+        voice_client = await channel.connect()
+
+        try:
+            audio = gTTS(text, lang=en)
+            audio.save("ttsaudio.mp3")
+        except:
+            await ctx.send("Unsupported language.")
+            await voice_client.disconnect()
+
         source = discord.FFmpegPCMAudio("ttsaudio.mp3")
         voice_client.play(source)
         while voice_client.is_playing():
             await asyncio.sleep(1)
         await voice_client.disconnect()
         os.remove("ttsaudio.mp3")
-
 
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
 @choices(gender=[Choice(name="Male", value="male"), Choice(name="Female", value="female")])
