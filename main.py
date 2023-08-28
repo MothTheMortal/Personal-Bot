@@ -8,7 +8,7 @@ from datetime import datetime
 from discord.app_commands import Choice, choices
 from gtts import gTTS
 import io
-
+import asyncio
 load_dotenv()
 
 TOKEN = getenv("BOT_TOKEN")
@@ -35,7 +35,7 @@ async def on_member_join(member: discord.Member):
 
 
 @bot.command(name="tts")
-async def tts(ctx: commands.Context, text: str):
+async def tts(ctx: commands.Context, *text: str):
     print("Running")
     channel = ctx.author.voice.channel
 
