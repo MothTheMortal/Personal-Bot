@@ -37,7 +37,10 @@ async def on_member_join(member: discord.Member):
 
 
 @bot.command(name="tts")
-async def tts(ctx: commands.Context, language, *, text):
+async def tts(ctx: commands.Context, language, *, text=None):
+    if text is None:
+        text = language
+        language = "en"
 
     if tts_lock.locked():
         await ctx.send("The command is already running. Please wait.")
