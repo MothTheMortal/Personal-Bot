@@ -35,7 +35,7 @@ async def on_member_join(member: discord.Member):
 
 
 @bot.command(name="tts")
-async def tts(ctx: commands.Context, *text: str):
+async def tts(ctx: commands.Context, *, text):
     print("Running")
     channel = ctx.author.voice.channel
 
