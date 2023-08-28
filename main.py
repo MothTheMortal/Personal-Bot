@@ -57,12 +57,12 @@ async def ttsa(ctx: commands.Context, language, *, text=None):
             await ctx.send("Unsupported language.")
             await voice_client.disconnect()
 
-        source = discord.FFmpegPCMAudio("ttsaaudio.mp3")
+        source = discord.FFmpegPCMAudio("ttsaudio.mp3")
         voice_client.play(source)
         while voice_client.is_playing():
             await asyncio.sleep(1)
         await voice_client.disconnect()
-        os.remove("ttsaaudio.mp3")
+        os.remove("ttsaudio.mp3")
 
 
 @bot.command(name="tts")
