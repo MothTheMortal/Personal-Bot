@@ -44,7 +44,7 @@ async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice
     embed.set_author(name=ctx.user.name, icon_url=ctx.user.avatar.url)
     embed.timestamp = datetime.now()
 
-    await intro_channel.send(embed)
+    await intro_channel.send(embed=embed)
 
     await ctx.response.send_message("Introduction sent!", ephemeral=True)
 
