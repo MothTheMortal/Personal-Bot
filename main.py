@@ -32,14 +32,14 @@ async def on_member_join(member: discord.Member):
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
 @choices(gender=[Choice(name="Male", value="male"), Choice(name="Female", value="female")])
 @discord.app_commands.describe(birthday="DD/MM/YYYY Format.")
-async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice[str], age: int, birthday: str, games: str, hobbies: str, anything_note: str):
+async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice[str], age: int, birthday: str, nationality: str, games: str, hobbies: str, anything_note: str):
     intro_channel = ctx.guild.get_channel(1145593789130473573)
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
 
     if ctx.user.name in names:
         return await ctx.response.send_message("You have already introduced yourself!", ephemeral=True)
 
-    description = f"**Name:** {name}\n**Gender:** {gender.name}\n**Age:** {age}\n**Birthday:** {birthday}\n**Games:** {games}\n**Hobbies:** {hobbies}"
+    description = f"**Name:** {name}\n**Gender:** {gender.name}\n**Age:** {age}\n**Birthday:** {birthday}\n**Nationality:** {nationality}\n**Games:** {games}\n**Hobbies:** {hobbies}"
     embed = discord.Embed(title=f"{ctx.user.name}'s Introduction", description=description, color=color_theme)
     embed.add_field(name="Note:", value=anything_note[:1024])
     embed.set_author(name=ctx.user.name, icon_url=ctx.user.avatar.url)
