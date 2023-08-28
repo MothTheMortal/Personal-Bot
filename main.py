@@ -4,11 +4,14 @@ from dotenv import load_dotenv
 from os import getenv
 from datetime import datetime
 from discord.app_commands import Choice, choices
+from gtts import gTTS
+import io
+
 load_dotenv()
 
 TOKEN = getenv("BOT_TOKEN")
 
-bot = commands.Bot(intents=discord.Intents.all(), command_prefix="?!")
+bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".!")
 
 color_theme = 0x2fd034
 
@@ -27,6 +30,26 @@ async def on_member_join(member: discord.Member):
     else:
         member_role = member.guild.get_role(1145461173718896731)
         await member.add_roles(member_role, reason="New Member Role!")
+
+
+@bot.command(name="tts")
+async def tts(ctx: commands.Context, text: str):
+    channel = ctx.author.voice.channel
+    if not channel:
+        return
+
+    voice_client = await channel.connect()
+
+    audio = gTTS(text)
+    audio_data = io.BytesIO()
+    audio.save(audio_data)
+    audio_data.seek(0)
+
+    source = discord.FFmpegPCMAudio(audio_data)
+    voice_client.play(source)
+    while voice_client.is_playing():
+        await asyncio.sleep(1)
+    await voice_client.disconnect()
 
 
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
