@@ -40,9 +40,8 @@ async def on_member_join(member: discord.Member):
 
 @bot.command(name="nitro")
 async def nitro(ctx: commands.Context):
-    for user in ctx.guild.members:
-        print(user.premium_since)
-
+    nitro_users = [user for user in ctx.guild.members if user.premium_since is not None]
+    await ctx.reply(" ".join([user.name for user in nitro_users]))
 
 @bot.command(name="info")
 async def info(ctx: commands.Context):
