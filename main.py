@@ -52,13 +52,13 @@ async def info(ctx: commands.Context):
     BotCount = len([mem for mem in ctx.guild.members if mem.bot])
     MemberCount = TotalMemberCount - BotCount
 
-    description = f"**Members:** {MemberCount}\n**Bots:** {BotCount}\n**Boosts:** {BoostsNo}\n**Boosters:** {', '.join([member.name for member in Boosters])}\n**Created at:** {ctx.guild.created_at.date()}>"
+    description = f"**Members:** {MemberCount}\n**Bots:** {BotCount}\n**Boosts:** {BoostsNo}\n**Boosters:** {', '.join([member.name for member in Boosters])}\n**Created at:** {ctx.guild.created_at.date()}"
     embed = discord.Embed(title=f"{ctx.guild.name}'s Information", description=description, color=color_theme)
     embed.set_image(url=ctx.guild.icon.url)
     embed.set_author(name=Owner.name, icon_url=Owner.avatar.url)
     embed.set_footer(text=f"Owned by {Owner.name}")
 
-    await ctx.reply(embed=embed)
+    await ctx.channel.send(embed=embed)
 
 
 
