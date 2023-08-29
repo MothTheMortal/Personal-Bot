@@ -10,6 +10,8 @@ from gtts import gTTS
 import io
 import asyncio
 import pytube
+import requests
+import json
 
 load_dotenv()
 
@@ -38,9 +40,15 @@ async def on_member_join(member: discord.Member):
         await member.add_roles(member_role, reason="New Member Role!")
 
 
-@bot.command(name="nitro")
-async def nitro(ctx: commands.Context):
-    nitro_users = [user for user in ctx.guild.members if user.premium_since is not None]
+@bot.command(name="cat")
+async def cat(ctx: commands.Context):
+    response = requests.get("https://api.thecatapi.com/v1/images/search")
+    json_data = json.loads(response.text)
+    cat_image = json_data["url"]
+    embed = discord.Embed(title="", description="", color=color_theme)
+    embed.set_image(url=cat_image)
+    await ctx.channel.send(embed=embed)
+
 
 
 @bot.command(name="info")
