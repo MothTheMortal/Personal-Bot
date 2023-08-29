@@ -64,7 +64,7 @@ async def info(ctx: commands.Context):
 @bot.command(name="socials", aliases=["social"])
 async def socials(ctx: commands.Context):
 
-    description = f"<:MLBB:1146157862901514343>\n<:clashofclan:1146158873862995988>\n<:github:1146156218524631052>\n<:instagram:1146155920699686932>\n<:minecraft:1146157223823802518>\n<:steam:1146159493873418260\n<:valorant:1146156993623625841>"
+    description = f"<:MLBB:1146157862901514343>: **MothTheMortal 1048896713**\n<:clashofclan:1146158873862995988>: **#2928URGPP**\n<:github:1146156218524631052>: **MothTheMortal**\n<:instagram:1146155920699686932>: **@xmothpvp**\n<:minecraft:1146157223823802518>: **MothTheMortal**\n<:steam:1146159493873418260>: **MothTheMortal**\n<:valorant:1146156993623625841>: **MothTheMortal#Moth**"
     embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
     await ctx.channel.send(embed=embed)
 
