@@ -60,7 +60,7 @@ async def download_yt(ctx: discord.Interaction, link: str, filetype: Choice[str]
     stream.stream_to_buffer(video_data)
     video_data.seek(0)
 
-    file = discord.File(video_data, filename=f"{title[:32]}.mp4")
+    file = discord.File(video_data, filename=f"{yt.title[:32]}.mp4")
 
     embed.set_footer(text="Downloaded.")
 
