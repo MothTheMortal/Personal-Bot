@@ -38,6 +38,12 @@ async def on_member_join(member: discord.Member):
         await member.add_roles(member_role, reason="New Member Role!")
 
 
+
+@bot.command(name="info")
+async def info(ctx: commands.Context):
+    pass
+
+
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")
 @choices(filetype=[Choice(name="Audio Only - MP3", value="MP3"), Choice(name="Video & Audio - MP4", value="MP4")])
 async def download_yt(ctx: discord.Interaction, link: str, filetype: Choice[str]):
