@@ -45,7 +45,7 @@ async def download_yt(ctx: discord.Interaction, link: str, filetype: Choice[str]
 
     description = f"Title: {yt.title}\nLength: {yt.length // 60} minutes {yt.length % 60} seconds"
 
-    embed = discord.Embed(title="Youtube Downloader", description=description)
+    embed = discord.Embed(title=f"Youtube Downloader - {filetype.value}", description=description)
     embed.set_image(url=yt.thumbnail_url)
     embed.set_footer(text="Downloading...")
 
