@@ -56,8 +56,8 @@ async def info(ctx: commands.Context):
     embed = discord.Embed(title=f"{ctx.guild.name}'s Information", description=description, color=color_theme)
     embed.set_image(url=ctx.guild.icon.url)
     embed.set_author(name=Owner.name, icon_url=Owner.avatar.url)
-    embed.set_footer(f"Owned by {Owner.name}")
-    
+    embed.set_footer(text=f"Owned by {Owner.name}")
+
     await ctx.reply(embed=embed)
 
 
