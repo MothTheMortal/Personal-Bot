@@ -61,6 +61,14 @@ async def info(ctx: commands.Context):
     await ctx.channel.send(embed=embed)
 
 
+@bot.command(name="socials", aliases=["social"])
+async def socials(ctx: commands.Context):
+
+    description = f"<:MLBB:1146157862901514343>\n<:clashofclan:1146158873862995988>\n<:github:1146156218524631052>\n<:instagram:1146155920699686932>\n<:minecraft:1146157223823802518>\n<:steam:1146159493873418260\n<:valorant:1146156993623625841>"
+    embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
+    await ctx.channel.send(embed=embed)
+
+
 
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")
 @choices(filetype=[Choice(name="Audio Only - MP3", value="MP3"), Choice(name="Video & Audio - MP4", value="MP4")])
