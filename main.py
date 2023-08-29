@@ -11,7 +11,6 @@ import io
 import asyncio
 import pytube
 import requests
-import json
 
 load_dotenv()
 
@@ -43,10 +42,10 @@ async def on_member_join(member: discord.Member):
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
     response = requests.get("https://api.thecatapi.com/v1/images/search")
-    json_data = json.loads(response.text)
-    cat_image = json_data["url"]
+    cat_img_url = response.json()[0]["url"]
+
     embed = discord.Embed(title="", description="", color=color_theme)
-    embed.set_image(url=cat_image)
+    embed.set_image(url=cat_img_url)
     await ctx.channel.send(embed=embed)
 
 
