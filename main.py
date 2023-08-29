@@ -41,11 +41,25 @@ async def on_member_join(member: discord.Member):
 @bot.command(name="nitro")
 async def nitro(ctx: commands.Context):
     nitro_users = [user for user in ctx.guild.members if user.premium_since is not None]
-    await ctx.reply(" ".join([user.name for user in nitro_users]))
+
 
 @bot.command(name="info")
 async def info(ctx: commands.Context):
-    pass
+    Owner = ctx.guild.owner
+    BoostsNo = ctx.guild.premium_subscription_count
+    Boosters = ctx.guild.premium_subscribers
+    TotalMemberCount = ctx.guild.member_count
+    BotCount = len([mem for mem in ctx.guild.members if mem.bot])
+    MemberCount = TotalMemberCount - BotCount
+
+    description = f"Members: {MemberCount}\nBots: {BotCount}\nBoosts: {BoostsNo}\nBoosters: {', '.join([member.name for member in Boosters])}\nCreated at: <t:{ctx.guild.created_at}>"
+    embed = discord.Embed(title=f"{ctx.guild.name}'s Information", description=description, color=color_theme)
+    embed.set_image(url=ctx.guild.icon.url)
+    embed.set_author(name=Owner.name, icon_url=Owner.avatar.url)
+    embed.set_footer(f"Owned by {Owner.name}")
+    
+    await ctx.reply(embed=embed)
+
 
 
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")
