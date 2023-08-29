@@ -38,15 +38,15 @@ async def on_member_join(member: discord.Member):
         await member.add_roles(member_role, reason="New Member Role!")
 
 
-@bot.command(name="has-nitro")
-async def has_nitro(ctx: commands.Context):
+@bot.command(name="nitro")
+async def nitro(ctx: commands.Context):
     for user in ctx.guild.members:
         print(user.premium_since)
+
 
 @bot.command(name="info")
 async def info(ctx: commands.Context):
     pass
-
 
 
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")
