@@ -41,8 +41,6 @@ async def on_member_join(member: discord.Member):
 @bot.event
 async def on_message_delete(message: discord.Message):
     snipe_channel = message.guild.get_channel(1146317717540966430)
-    async for msg in snipe_channel.history():
-        await msg.delete()
     if message.attachments:
         await snipe_channel.send(files=message.attachments)
     else:
