@@ -42,7 +42,7 @@ async def on_member_join(member: discord.Member):
 async def on_message_delete(message: discord.Message):
     snipe_channel = message.guild.get_channel(1146317717540966430)
     if message.attachments:
-        await snipe_channel.send(files=message.attachments)
+        await snipe_channel.send(files=[f.to_file() for f in message.attachments])
     else:
         await snipe_channel.send(f"{message.author.name}: {message.content}")
 
@@ -61,7 +61,7 @@ async def snipe(ctx: commands.Context):
     snipe_channel = ctx.guild.get_channel(1146317717540966430)
     msg = [msg async for msg in snipe_channel.history()][0]
     if msg.attachments:
-        await ctx.reply(files=msg.attachments)
+        await ctx.reply(files=[f.to_file() for f in message.attachments])
     else:
         await ctx.reply(msg.content)
 
