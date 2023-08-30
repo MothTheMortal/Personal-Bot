@@ -39,14 +39,14 @@ async def on_member_join(member: discord.Member):
         await member.add_roles(member_role, reason="New Member Role!")
 
 @bot.event
-async def on_message_delete(msg: discord.Message):
-    snipe_channel = msg.guild.get_channel(1146317717540966430)
+async def on_message_delete(message: discord.Message):
+    snipe_channel = message.guild.get_channel(1146317717540966430)
     async for msg in snipe_channel.history():
         await msg.delete()
-    if msg.attachments:
-        await snipe_channel.send(files=msg.attachments)
+    if message.attachments:
+        await snipe_channel.send(files=message.attachments)
     else:
-        await snipe_channel.send(f"{msg.author.name}: {msg.content}")
+        await snipe_channel.send(f"{message.author.name}: {message.content}")
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
