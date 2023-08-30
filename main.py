@@ -61,7 +61,7 @@ async def snipe(ctx: commands.Context):
     snipe_channel = ctx.guild.get_channel(1146317717540966430)
     msg = [msg async for msg in snipe_channel.history()][0]
     if msg.attachments:
-        await ctx.reply(files=[await f.to_file() for f in message.attachments])
+        await ctx.reply(files=[await f.to_file() for f in msg.attachments])
     else:
         await ctx.reply(msg.content)
 
