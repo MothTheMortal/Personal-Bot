@@ -38,6 +38,15 @@ async def on_member_join(member: discord.Member):
         member_role = member.guild.get_role(1145461173718896731)
         await member.add_roles(member_role, reason="New Member Role!")
 
+@bot.event
+async def on_message_delete(msg: discord.Message):
+    snipe_channel = msg.guild.get_channel(1146317717540966430)
+    async for msg in snipe_channel.history():
+        await msg.delete()
+    if msg.attachments:
+        await snipe_channel.send(files=msg.attachments)
+    else:
+        await snipe_channel.send(f"{msg.author.name}: {msg.content}")
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
@@ -48,6 +57,15 @@ async def cat(ctx: commands.Context):
     embed.set_image(url=cat_img_url)
     await ctx.channel.send(embed=embed)
 
+
+@bot.command(name="snipe")
+async def snipe(ctx: commands.Context):
+    snipe_channel = ctx.guild.get_channel(1146317717540966430)
+    msg = [msg async for msg in snipe_channel.history()][0]
+    if msg.attachments:
+        await ctx.reply(files=msg.attachments)
+    else:
+        await ctx.reply(msg.content)
 
 
 @bot.command(name="info")
