@@ -178,6 +178,18 @@ async def tts(ctx: commands.Context, *, text=None):
         os.remove("ttsaudio.mp3")
 
 
+@bot.command(name="no-intro")
+async def no_intro(ctx: commands.Context):
+    intro_channel = ctx.guild.get_channel(1145593789130473573)
+    names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
+    members = ctx.guild.members
+    no_intro_member = []
+    for member in members:
+        if member.name not in names:
+            no_intro_member.append(member.name)
+    await ctx.reply(", ".join(no_intro_member))
+
+
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
 @choices(gender=[Choice(name="Male", value="male"), Choice(name="Female", value="female")])
 @discord.app_commands.describe(birthday="DD/MM/YYYY Format.")
