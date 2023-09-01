@@ -24,17 +24,17 @@ color_theme = 0x2fd034
 
 
 
-@bot.command(name="test", description="Used for running temporary one-off commands.")
-async def test(ctx: commands.Context):
-    role = ctx.guild.get_role(1147062497812156427)
-    msg = await ctx.guild.fetch_channel(1145462429929717824)
-    x = await msg.fetch_message(1146648138598326342)
-    async for user in x.reactions[0].users():
-        try:
-            if not user.bot:
-                await user.add_roles(role)
-        except:
-            pass
+# @bot.command(name="test", description="Used for running temporary one-off commands.")
+# async def test(ctx: commands.Context):
+#     role = ctx.guild.get_role(1147062497812156427)
+#     msg = await ctx.guild.fetch_channel(1145462429929717824)
+#     x = await msg.fetch_message(1146648138598326342)
+#     async for user in x.reactions[0].users():
+#         try:
+#             if not user.bot:
+#                 await user.add_roles(role)
+#         except:
+#             pass
 
 @bot.event
 async def on_ready():
