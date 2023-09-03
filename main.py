@@ -65,7 +65,7 @@ async def on_message_delete(message: discord.Message):
 @tasks.loop(seconds=10)
 async def serverStatus():
     status_channel = bot.get_channel(1147073523416825896)
-    await status_channel.send(test)
+    await status_channel.send("test")
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
