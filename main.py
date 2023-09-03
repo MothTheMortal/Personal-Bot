@@ -11,6 +11,7 @@ import io
 import asyncio
 import pytube
 import requests
+from mcstatus import JavaServer
 load_dotenv()
 
 tts_lock = asyncio.Lock()
@@ -65,7 +66,39 @@ async def on_message_delete(message: discord.Message):
 @tasks.loop(seconds=10)
 async def serverStatus():
     status_channel = bot.get_channel(1147073523416825896)
-    await status_channel.send("test")
+    msg: discord.Message = await status_channel.fetch_message(1147761585251696640)
+
+    try:
+        server = JavaServer.lookup(address="147.185.221.16:37793")
+        users = [i.name for i in server.status().players.sample]
+        max_user = server.status().players.max
+        online_users = server.status().players.online
+        motd = server.status().motd.raw['text']
+        vers = server.status().version.name
+        description = f"**Server:** :green_circle:\n**Players Online:** {online_users}/{max_user}\n**Players:** {', '.join(users)}\n**MOTD**: {motd}\n**Version:** Forge {vers}"
+        embed = discord.Embed(title="Moth's Server Status", description=description, colour=0x00FF00)
+    except:
+        embed = discord.Embed(title="Moth's Server Status", description="**Server: :red_circle:", colour=0xFF0000)
+
+    await msg.edit(content="", embed=embed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    await msg.edit()
+
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
