@@ -1,6 +1,6 @@
 import os
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from os import getenv
 from datetime import datetime
@@ -60,6 +60,12 @@ async def on_message_delete(message: discord.Message):
         await snipe_channel.send(files=[await f.to_file() for f in message.attachments])
     else:
         await snipe_channel.send(f"{message.author.name}: {message.content}")
+
+
+@tasks.loop(seconds=10)
+async def serverStatus():
+    status_channel = bot.get_channel(1147073523416825896)
+    await status_channel.send(test)
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
