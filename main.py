@@ -79,7 +79,7 @@ async def serverStatus():
         embed = discord.Embed(title="Moth's Server Status", description=description, colour=0x00FF00)
     except:
         embed = discord.Embed(title="Moth's Server Status", description="**Server: :red_circle:", colour=0xFF0000)
-
+    embed.set_footer(text="Refreshes every 10 seconds.")
     await msg.edit(content="", embed=embed)
 
 
