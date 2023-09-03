@@ -11,7 +11,6 @@ import io
 import asyncio
 import pytube
 import requests
-
 load_dotenv()
 
 tts_lock = asyncio.Lock()
@@ -38,6 +37,7 @@ color_theme = 0x2fd034
 
 @bot.event
 async def on_ready():
+    serverStatus.start()
     print(f"{bot.user.name} is online.")
     print(f"{len(await bot.tree.sync())} commands loaded.")
 
