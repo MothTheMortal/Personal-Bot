@@ -63,7 +63,7 @@ async def on_message_delete(message: discord.Message):
         await snipe_channel.send(f"{message.author.name}: {message.content}")
 
 
-@tasks.loop(seconds=10)
+@tasks.loop(seconds=30)
 async def serverStatus():
     status_channel = bot.get_channel(1147073523416825896)
     msg: discord.Message = await status_channel.fetch_message(1147761585251696640)
@@ -79,7 +79,8 @@ async def serverStatus():
         embed = discord.Embed(title="Moth's Server Status", description=description, colour=0x00FF00)
     except:
         embed = discord.Embed(title="Moth's Server Status", description="**Server:** :red_circle:", colour=0xFF0000)
-    embed.set_footer(text="Refreshes every 10 seconds.")
+
+    embed.set_footer(text="Refreshes every 30 seconds.")
     await msg.edit(content="", embed=embed)
 
 
