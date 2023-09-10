@@ -93,7 +93,7 @@ async def math(ctx: commands.Context):
     embed.set_footer(text="Answer will be in whole number (12) or fraction form (12/5).")
     await ctx.channel.send(embed=embed)
 
-    def check(message):
+    def check(m):
         return m.channel == ctx.channel and m.content == solution
 
     try:
