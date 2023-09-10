@@ -90,7 +90,7 @@ async def math(ctx: commands.Context):
     question, solution = getAlgebra()
     timeout = 60
     embed = discord.Embed(title="Algebra Question", description=f"Solve for x:\n{question}\nYou have {timeout} seconds to solve!")
-    embed.set_footer(text="Answer will be in whole number (12) or fraction form (12/5).")
+    embed.set_footer(text="Answer has be simplified, in whole number (12) or fraction form (12/5).")
     await ctx.channel.send(embed=embed)
 
     def check(m):
