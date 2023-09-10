@@ -95,13 +95,13 @@ async def math(ctx: commands.Context):
 
     def check(m):
         return m.channel == ctx.channel and m.content == solution
-
+    startTime = time.time()
     try:
         msg = await bot.wait_for("message", check=check, timeout=timeout)
     except asyncio.TimeoutError:
         await ctx.channel.send(f"No one answered in {timeout} seconds!")
     else:
-        await ctx.channel.send(f"{msg.author} got the answer correctly!")
+        await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
 
