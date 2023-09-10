@@ -97,7 +97,7 @@ async def math(ctx: commands.Context):
         return m.channel == ctx.channel and m.content == solution
 
     try:
-        msg = bot.wait_for("message", check=check, timeout=timeout)
+        msg = await bot.wait_for("message", check=check, timeout=timeout)
     except asyncio.TimeoutError:
         await ctx.channel.send(f"No one answered in {timeout} seconds!")
     else:
