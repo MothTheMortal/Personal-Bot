@@ -12,15 +12,15 @@ import asyncio
 import pytube
 import requests
 from mcstatus import JavaServer
-load_dotenv()
+from config import *
+import time
 
+load_dotenv()
 tts_lock = asyncio.Lock()
 
 TOKEN = getenv("BOT_TOKEN")
 
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".")
-
-color_theme = 0x2fd034
 
 
 
@@ -35,6 +35,7 @@ color_theme = 0x2fd034
 #                 await user.add_roles(role)
 #         except:
 #             pass
+
 
 @bot.event
 async def on_ready():
@@ -84,21 +85,26 @@ async def serverStatus():
     await msg.edit(content="", embed=embed)
 
 
+@bot.command(name="math")
+async def math(ctx: commands.Context):
+    question, solution = getAlgebra()
+    timeout = 60
+    embed = discord.Embed(title="Algebra Question", description=f"Solve for x:\n{question}\nYou have {timeout} seconds to solve!")
+    embed.set_footer(text="Answer will be in whole number (12) or fraction form (12/5).")
+    await ctx.channel.send(embed=embed)
+
+    def check(message):
+        return m.channel == ctx.channel and m.content == solution
+
+    try:
+        msg = bot.wait_for("message", check=check, timeout=timeout)
+    except asyncio.TimeoutError:
+        await ctx.channel.send(f"No one answered in {timeout} seconds!")
+    else:
+        await ctx.channel.send(f"{msg.author} got the answer correctly!")
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    await msg.edit()
 
 
 @bot.command(name="cat")
