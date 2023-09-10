@@ -94,7 +94,7 @@ async def math(ctx: commands.Context):
     await ctx.channel.send(embed=embed)
 
     def check(m):
-        return m.channel == ctx.channel and m.content == solution
+        return m.channel == ctx.channel and m.content == str(solution)
     startTime = time.time()
     try:
         msg = await bot.wait_for("message", check=check, timeout=timeout)
