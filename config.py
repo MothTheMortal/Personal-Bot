@@ -117,7 +117,7 @@ import random
 def getQuadratic():
     a = random.randint(-5, 5)
     b = random.randint(-10, 10)
-    c = random.randint(-20, 20)
+    c = random.randint(-10, 10)
 
     equation = f'y = {a}x^2'
     if b < 0:
@@ -164,7 +164,7 @@ def getQuadratic():
     x_values = np.linspace(xmin, xmax, 100)
     y_values = a * x_values ** 2 + b * x_values + c
 
-    ax.plot(x_values, y_values, label=equation, color='blue')
+    ax.plot(x_values, y_values, label="Find the quadratic equation!", color='blue')
     plt.legend()
     plt.tight_layout()
 
