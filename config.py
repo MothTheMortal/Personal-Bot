@@ -121,12 +121,22 @@ def getLinear():
 
 def getQuadratic():
     a = random.randint(-5, 5)
+    while a == 0:
+        a = random.randint(-5, 5)
     b = random.randint(-10, 10)
+    while b == 0:
+        b = random.randint(-10, 10)
     c = random.randint(-10, 10)
+    while c == 0:
+        c = random.randint(-10, 10)
 
+    if a == 1:
+        a = ""
     equation = f'y={a}x^2'
     if b < 0:
         equation += f'-{-b}x'
+    elif b == 1:
+        equation += f'+x'
     else:
         equation += f'+{b}x'
 
@@ -180,3 +190,5 @@ def getQuadratic():
     return buffer, equation
 
 
+def getRandomWord():
+    pass
