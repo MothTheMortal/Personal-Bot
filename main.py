@@ -111,8 +111,8 @@ async def linearmath(ctx: commands.Context):
     embed = discord.Embed(title="Linear Equation Question",
                           description=f"Find equation y=mx+c for this graph.\nYou have {timeout} seconds to solve!")
     embed.set_footer(text="Answer has to be in 'y=mc+x' form.")
-
-    await ctx.channel.send(embed=embed)
+    file = discord.File(fp=buffer, filename="linear_equation.png")
+    await ctx.channel.send(embed=embed, file=file)
 
     def check(m):
         return m.channel == ctx.channel and m.content.lower() == str(solution)
