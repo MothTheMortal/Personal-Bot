@@ -23,7 +23,6 @@ TOKEN = getenv("BOT_TOKEN")
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".")
 
 
-
 # @bot.command(name="test", description="Used for running temporary one-off commands.")
 # async def test(ctx: commands.Context):
 #     role = ctx.guild.get_role(1147062497812156427)
@@ -173,7 +172,6 @@ async def unscramble(ctx: commands.Context):
             f"{msg.author.mention} got the word correctly in {int(time.time() - startTime)} seconds!")
 
 
-
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
     response = requests.get("https://api.thecatapi.com/v1/images/search")
@@ -218,7 +216,6 @@ async def socials(ctx: commands.Context):
     description = f"<:MLBB:1146157862901514343>: **MothTheMortal 1048896713**\n<:clashofclan:1146158873862995988>: **#2928URGPP**\n<:github:1146156218524631052>: **MothTheMortal**\n<:instagram:1146155920699686932>: **@xmothpvp**\n<:minecraft:1146157223823802518>: **MothTheMortal**\n<:steam:1146159493873418260>: **MothTheMortal**\n<:valorant:1146156993623625841>: **MothTheMortal#Moth**"
     embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
     await ctx.channel.send(embed=embed)
-
 
 
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")
