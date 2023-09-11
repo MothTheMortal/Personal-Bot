@@ -124,16 +124,16 @@ def getQuadratic():
     b = random.randint(-10, 10)
     c = random.randint(-10, 10)
 
-    equation = f'y = {a}x^2'
+    equation = f'y={a}x^2'
     if b < 0:
-        equation += f' - {-b}x'
+        equation += f'-{-b}x'
     else:
-        equation += f' + {b}x'
+        equation += f'+{b}x'
 
     if c < 0:
-        equation += f' - {-c}'
+        equation += f'-{-c}'
     else:
-        equation += f' + {c}'
+        equation += f'+{c}'
 
     print(equation)
 
