@@ -5,6 +5,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+# Initialization
+with open("word_data.txt", "r") as file:
+    data = file.read()
+    words = data.split("\n")
+
+
 # Colors
 color_theme = 0x2fd034
 
@@ -191,4 +197,10 @@ def getQuadratic():
 
 
 def getRandomWord():
-    pass
+    word = random.choice(words)
+
+    letters = list(word)
+    random.shuffle(letters)
+    scrambledWord = "".join(letters)
+
+    return word, scrambledWord

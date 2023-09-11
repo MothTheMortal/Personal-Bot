@@ -150,6 +150,29 @@ async def quadraticmath(ctx: commands.Context):
         await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
+@bot.command(name="unscramble")
+async def unscramble(ctx: commands.Context):
+    word, scrambledWord = getRandomWord()
+    print(word)
+    timeout = 120
+    embed = discord.Embed(title="Unscramble!",
+                          description=f"Unscramble the scrambled word within {timeout} seconds:\n**{scrambledWord}**")
+    await ctx.channel.send(embed=embed)
+
+    def check(m):
+        return m.channel == ctx.channel and m.content.lower() == word
+
+    startTime = time.time()
+
+    try:
+        msg = await bot.wait_for("message", check=check, timeout=timeout)
+    except asyncio.TimeoutError:
+        await ctx.channel.send(f"No one answered the question; The word was {word}!")
+    else:
+        await ctx.channel.send(
+            f"{msg.author.mention} got the word correctly in {int(time.time() - startTime)} seconds!")
+
+
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):
