@@ -57,7 +57,18 @@ def getAlgebra():  # ax + b = cx + d -> x = (d - b) / (a - c)
 
 def getLinear():
     m = random.randint(-10, 10)
+    while m == 0:
+        m = random.randint(-10, 10)
+
+    if m == 1:
+        m = ""
+
     b = random.randrange(-20, 20)
+    while b == 0:
+        b = random.randrange(-20, 20)
+
+
+
     if b < 0:
         solution = f'y={m}x{b}'
     else:

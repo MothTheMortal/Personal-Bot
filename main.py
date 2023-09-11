@@ -115,7 +115,9 @@ async def linearmath(ctx: commands.Context):
     await ctx.channel.send(embed=embed, file=file)
 
     def check(m):
-        return m.channel == ctx.channel and m.content.lower() == str(solution)
+        answer = m.content.lower()
+        answer = answer.replace(" ", "")
+        return m.channel == ctx.channel and answer == str(solution)
     startTime = time.time()
     try:
         msg = await bot.wait_for("message", check=check, timeout=timeout)
