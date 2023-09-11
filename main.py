@@ -127,6 +127,29 @@ async def linearmath(ctx: commands.Context):
         await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
+@bot.command(name="quadraticmath")
+async def quadraticmath(ctx: commands.Context):
+    buffer, solution = getQuadratic()
+    timeout = 600
+    embed = discord.Embed(title="Quadratic Equation Question",
+                          description=f"Find equation y=ax^2+bx+c for this graph.\nYou have {timeout} seconds to solve!")
+    embed.set_footer(text="Answer has to be in 'y=ax^2+bx+c' form.")
+    file = discord.File(fp=buffer, filename="quadratic_equation.png")
+    await ctx.channel.send(embed=embed, file=file)
+
+    def check(m):
+        answer = m.content.lower()
+        answer = answer.replace(" ", "")
+        return m.channel == ctx.channel and answer == str(solution)
+    startTime = time.time()
+    try:
+        msg = await bot.wait_for("message", check=check, timeout=timeout)
+    except asyncio.TimeoutError:
+        await ctx.channel.send(f"No one answered the question; The answer was {solution}!")
+    else:
+        await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
+
+
 
 @bot.command(name="cat")
 async def cat(ctx: commands.Context):

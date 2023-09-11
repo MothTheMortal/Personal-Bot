@@ -119,12 +119,6 @@ def getLinear():
     return buffer, solution
 
 
-import numpy as np
-import matplotlib.pyplot as plt
-from io import BytesIO
-import random
-
-
 def getQuadratic():
     a = random.randint(-5, 5)
     b = random.randint(-10, 10)
