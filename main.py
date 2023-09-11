@@ -106,7 +106,7 @@ async def math(ctx: commands.Context):
 
 @bot.command(name="linearmath")
 async def linearmath(ctx: commands.Context):
-    buffer, solution = getLinear()
+    buffer, solution = getQuadratic()
     timeout = 600
     embed = discord.Embed(title="Linear Equation Question",
                           description=f"Find equation y=mx+c for this graph.\nYou have {timeout} seconds to solve!")
