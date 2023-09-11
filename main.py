@@ -90,7 +90,7 @@ async def math(ctx: commands.Context):
     question, solution = getAlgebra()
     timeout = 60
     embed = discord.Embed(title="Algebra Question", description=f"Solve for x:\n{question}\nYou have {timeout} seconds to solve!")
-    embed.set_footer(text="Answer has be simplified, in whole number (12) or fraction form (12/5).")
+    embed.set_footer(text="Answer has to be simplified, in whole number (12) or fraction form (12/5).")
     await ctx.channel.send(embed=embed)
 
     def check(m):
@@ -104,6 +104,25 @@ async def math(ctx: commands.Context):
         await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
+@bot.command(name="linearmath")
+async def linearmath(ctx: commands.Context):
+    buffer, solution = getLinear()
+    timeout = 600
+    embed = discord.Embed(title="Linear Equation Question",
+                          description=f"Find equation y=mx+c for this graph.\nYou have {timeout} seconds to solve!")
+    embed.set_footer(text="Answer has to be in 'y=mc+x' form.")
+
+    await ctx.channel.send(embed=embed)
+
+    def check(m):
+        return m.channel == ctx.channel and m.content.lower() == str(solution)
+    startTime = time.time()
+    try:
+        msg = await bot.wait_for("message", check=check, timeout=timeout)
+    except asyncio.TimeoutError:
+        await ctx.channel.send(f"No one answered the question; The answer was {solution}!")
+    else:
+        await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
 

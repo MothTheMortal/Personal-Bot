@@ -1,5 +1,9 @@
 import math
+from io import BytesIO
 from random import randint, choice
+import numpy as np
+import matplotlib.pyplot as plt
+import random
 
 # Colors
 color_theme = 0x2fd034
@@ -49,3 +53,53 @@ def getAlgebra():  # ax + b = cx + d -> x = (d - b) / (a - c)
         solution = 0
 
     return question, solution
+
+
+def getLinear():
+    m = random.randint(-10, 10)
+    b = random.randrange(-20, 20)
+    solution = f'y={m}x+{b}'
+
+    xmin, xmax, ymin, ymax = -10, 10, -10, 10
+    ticks_frequency = 1
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    ax.set(xlim=(xmin - 1, xmax + 1), ylim=(ymin - 1, ymax + 1), aspect='equal')
+
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['left'].set_position('zero')
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    ax.set_xlabel('x', size=14, labelpad=-24, x=1.03)
+    ax.set_ylabel('y', size=14, labelpad=-21, y=1.02, rotation=0)
+
+    x_ticks = np.arange(xmin, xmax + 1, ticks_frequency)
+    y_ticks = np.arange(ymin, ymax + 1, ticks_frequency)
+    ax.set_xticks(x_ticks[x_ticks != 0])
+    ax.set_yticks(y_ticks[y_ticks != 0])
+
+    ax.set_xticks(np.arange(xmin, xmax + 1), minor=True)
+    ax.set_yticks(np.arange(ymin, ymax + 1), minor=True)
+
+    ax.grid(which='both', color='grey', linewidth=1, linestyle='-', alpha=0.2)
+
+    arrow_fmt = dict(markersize=4, color='black', clip_on=False)
+    ax.plot((1), (0), marker='>', transform=ax.get_yaxis_transform(), **arrow_fmt)
+    ax.plot((0), (1), marker='^', transform=ax.get_xaxis_transform(), **arrow_fmt)
+
+    x_values = np.linspace(xmin, xmax, 100)
+
+    y_values = m * x_values + b
+
+    ax.plot(x_values, y_values, label='Find the Linear equation!', color='blue')
+    plt.legend()
+    plt.tight_layout()
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format="png")
+    buffer.seek(0)
+
+    return buffer, solution
