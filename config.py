@@ -58,8 +58,11 @@ def getAlgebra():  # ax + b = cx + d -> x = (d - b) / (a - c)
 def getLinear():
     m = random.randint(-10, 10)
     b = random.randrange(-20, 20)
-    solution = f'y={m}x+{b}'
-
+    if b < 0:
+        solution = f'y={m}x{b}'
+    else:
+        solution = f'y={m}x+{b}'
+    print(solution)
     xmin, xmax, ymin, ymax = -10, 10, -10, 10
     ticks_frequency = 1
 
