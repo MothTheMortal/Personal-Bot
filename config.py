@@ -200,8 +200,8 @@ def getQuadratic():
 def getRandomWord():
     word = random.choice(words)
 
-    letters = list(word)
+    letters = list(word.title())
     random.shuffle(letters)
     scrambledWord = "".join(letters)
 
-    return word.title(), scrambledWord
+    return word, scrambledWord
