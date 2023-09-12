@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+
 # Initialization
 with open("word_data.txt", "r") as file:
     data = file.read()
@@ -203,4 +204,4 @@ def getRandomWord():
     random.shuffle(letters)
     scrambledWord = "".join(letters)
 
-    return word, scrambledWord
+    return word.title(), scrambledWord
