@@ -69,7 +69,7 @@ async def serverStatus():
     msg: discord.Message = await status_channel.fetch_message(1147761585251696640)
 
     try:
-        server = JavaServer.lookup(address="147.185.221.16:37793")
+        server = JavaServer.lookup(address="147.185.221.16:47369")
         users = [i.name for i in server.status().players.sample]
         max_user = server.status().players.max
         online_users = server.status().players.online
