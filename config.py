@@ -127,15 +127,32 @@ def getLinear():
 
 
 def getQuadratic():
-    a = random.randint(-5, 5)
+    # a = random.randint(-5, 5)
+    # while a == 0:
+    #     a = random.randint(-5, 5)
+    # b = random.randint(-10, 10)
+    # while b == 0:
+    #     b = random.randint(-10, 10)
+    # c = random.randint(-10, 10)
+    # while c == 0:
+    #     c = random.randint(-10, 10)
+    h = random.randint(-5,5)
+    k = random.randint(-5,5)
+    a = random.randint(-5,5)
     while a == 0:
-        a = random.randint(-5, 5)
-    b = random.randint(-10, 10)
-    while b == 0:
-        b = random.randint(-10, 10)
-    c = random.randint(-10, 10)
-    while c == 0:
-        c = random.randint(-10, 10)
+        a = random.randint(-5,5)
+
+    b = -2a*h
+    c = a*(h**2) + k
+    
+
+    
+    
+
+
+    
+
+    
 
     if a == 1:
         a = ""
