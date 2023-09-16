@@ -309,8 +309,9 @@ async def no_intro(ctx: commands.Context):
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
     members = ctx.guild.members
     no_intro_member = []
+    ignore_names = ["starbuckbarista","unknownunfortunately","meowchan101","alternatived"]
     for member in members:
-        if member.name not in names:
+        if (member.name not in names) && (not member.bot) && (not in ignore_names):
             no_intro_member.append(member.name)
     await ctx.reply(", ".join(no_intro_member))
 
