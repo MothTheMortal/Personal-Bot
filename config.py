@@ -142,7 +142,7 @@ def getQuadratic():
     while a == 0:
         a = random.randint(-5,5)
 
-    b = -2a*h
+    b = -2*a*h
     c = a*(h**2) + k
     
 
