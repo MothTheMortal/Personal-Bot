@@ -155,8 +155,9 @@ def getQuadratic():
     
 
     if a == 1:
-        a = ""
-    equation = f'y={a}x^2'
+        equation = f'y=x^2'
+    else:
+        equation = f'y={a}x^2'
     if b < 0:
         equation += f'-{-b}x'
     elif b == 1:
