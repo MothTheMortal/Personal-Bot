@@ -45,12 +45,14 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member: discord.Member):
-    if member.bot:
-        bot_role = member.guild.get_role(1145465466203152515)
-        await member.add_roles(bot_role, reason="New Bot role!")
-    else:
-        member_role = member.guild.get_role(1145461173718896731)
-        await member.add_roles(member_role, reason="New Member Role!")
+    member_role = member.guild.get_role(1154077513824354355)
+    await member.add_roles(member_role, reason="New Prisoner!")
+    # if member.bot:
+    #     bot_role = member.guild.get_role(1145465466203152515)
+    #     await member.add_roles(bot_role, reason="New Bot role!")
+    # else:
+    #     member_role = member.guild.get_role(1145461173718896731)
+    #     await member.add_roles(member_role, reason="New Member Role!")
 
 @bot.event
 async def on_message_delete(message: discord.Message):
