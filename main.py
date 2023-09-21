@@ -200,7 +200,7 @@ async def cat(ctx: commands.Context):
 
 @bot.command(name="snipe")
 async def snipe(ctx: commands.Context):
-    snipe_channel = [channel for channel in message.guild.channels if channel.name == snipeName]
+    snipe_channel = [channel for channel in ctx.guild.channels if channel.name == snipeName]
     if snipe_channel:
         snipe_channel = snipe_channel[0]
     else:
