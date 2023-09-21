@@ -347,7 +347,7 @@ async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice
     if intro_channel:
         intro_channel = intro_channel[0]
     else:
-        return await ctx.response.send_message(f"Channel `{introName}` not found!")
+        return await ctx.followup.send(f"Channel `{introName}` not found!")
 
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
 
