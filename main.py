@@ -352,7 +352,7 @@ async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
 
     if ctx.user.name in names:
-        return await ctx.response.send_message("You have already introduced yourself!", ephemeral=True)
+        return await ctx.followup.send("You have already introduced yourself!", ephemeral=True)
 
     description = f"**Name:** {name}\n**Gender:** {gender.name}\n**Age:** {age}\n**Birthday:** {birthday}\n**Nationality:** {nationality}\n**Games:** {games}\n**Languages:** {languages}\n**Hobbies:** {hobbies}"
     embed = discord.Embed(title=f"{ctx.user.name}'s Introduction", description=description, color=color_theme)
