@@ -342,7 +342,7 @@ async def no_intro(ctx: commands.Context):
 @discord.app_commands.describe(birthday="DD/MM/YYYY Format.")
 async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice[str], age: int, birthday: str,
                              nationality: str, games: str, hobbies: str, languages: str, anything_note: str):
-
+    await ctx.response.defer()
     intro_channel = [channel for channel in ctx.guild.channels if channel.name == introName]
     if intro_channel:
         intro_channel = intro_channel[0]
@@ -362,7 +362,7 @@ async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice
 
     await intro_channel.send(embed=embed)
 
-    await ctx.response.send_message("Introduction sent!", ephemeral=True)
+    await ctx.followup.send("Introduction sent!", ephemeral=True)
 
 
 @bot.tree.command(name="make-suggestion", description="Give a suggestion for a feature to add to the bot.")
