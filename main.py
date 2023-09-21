@@ -200,7 +200,12 @@ async def cat(ctx: commands.Context):
 
 @bot.command(name="snipe")
 async def snipe(ctx: commands.Context):
-    snipe_channel = ctx.guild.get_channel(1146317717540966430)
+    snipe_channel = [channel for channel in message.guild.channels if channel.name == snipeName]
+    if snipe_channel:
+        snipe_channel = snipe_channel[0]
+    else:
+        return await ctx.send(f"channel `{snipeName}' not found!")
+
     msg = [msg async for msg in snipe_channel.history()][0]
     if msg.attachments:
         await ctx.reply(files=[await f.to_file() for f in msg.attachments])
@@ -274,7 +279,7 @@ async def ttsa(ctx: commands.Context, language, *, text=None):
         try:
             channel = ctx.author.voice.channel
         except AttributeError:
-            await ctx.send("You are not in a voice channel.")
+            return await ctx.send("You are not in a voice channel.")
 
         voice_client = await channel.connect()
 
@@ -303,7 +308,7 @@ async def tts(ctx: commands.Context, *, text=None):
         try:
             channel = ctx.author.voice.channel
         except AttributeError:
-            await ctx.send("You are not in a voice channel.")
+            return await ctx.send("You are not in a voice channel.")
 
 
         voice_client = await channel.connect()
@@ -337,7 +342,13 @@ async def no_intro(ctx: commands.Context):
 @discord.app_commands.describe(birthday="DD/MM/YYYY Format.")
 async def introduce_yourself(ctx: discord.Interaction, name: str, gender: Choice[str], age: int, birthday: str,
                              nationality: str, games: str, hobbies: str, languages: str, anything_note: str):
-    intro_channel = ctx.guild.get_channel(1145593789130473573)
+
+    intro_channel = [channel for channel in ctx.guild.channels if channel.name == introName]
+    if intro_channel:
+        intro_channel = intro_channel[0]
+    else:
+        return await ctx.response.send_message(f"Channel `{introName}` not found!")
+
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
 
     if ctx.user.name in names:

@@ -17,6 +17,7 @@ color_theme = 0x2fd034
 
 # Channel Names
 snipeName = "snipe_save"
+introName = "member-introduction"
 
 # External Functions
 def rSym():
