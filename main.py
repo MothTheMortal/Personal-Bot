@@ -204,7 +204,7 @@ async def snipe(ctx: commands.Context):
     if snipe_channel:
         snipe_channel = snipe_channel[0]
     else:
-        return await ctx.send(f"channel `{snipeName}' not found!")
+        return await ctx.send(f"channel `{snipeName}` not found!")
 
     msg = [msg async for msg in snipe_channel.history()][0]
     if msg.attachments:
