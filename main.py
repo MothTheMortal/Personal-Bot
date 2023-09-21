@@ -45,6 +45,9 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member: discord.Member):
+    if not member.guild in [1145420194341204080]:
+        return
+
     member_role = member.guild.get_role(1154077513824354355)
     await member.add_roles(member_role, reason="New Prisoner!")
     # if member.bot:
@@ -54,9 +57,13 @@ async def on_member_join(member: discord.Member):
     #     member_role = member.guild.get_role(1145461173718896731)
     #     await member.add_roles(member_role, reason="New Member Role!")
 
+
 @bot.event
 async def on_message_delete(message: discord.Message):
-    snipe_channel = message.guild.get_channel(1146317717540966430)
+    snipe_channel = [channel for channel in message.guild.channels if channel.name == snipeName]
+    if snipe_channel:
+        snipe_channel = snipe_channel[0]
+
     if message.channel.id == snipe_channel.id:
         return
     if message.attachments:
@@ -90,19 +97,22 @@ async def serverStatus():
 async def math(ctx: commands.Context):
     question, solution = getAlgebra()
     timeout = 60
-    embed = discord.Embed(title="Algebra Question", description=f"Solve for x:\n{question}\nYou have {timeout} seconds to solve!")
+    embed = discord.Embed(title="Algebra Question",
+                          description=f"Solve for x:\n{question}\nYou have {timeout} seconds to solve!")
     embed.set_footer(text="Answer has to be simplified, in whole number (12) or fraction form (12/5).")
     await ctx.channel.send(embed=embed)
 
     def check(m):
         return m.channel == ctx.channel and m.content == str(solution)
+
     startTime = time.time()
     try:
         msg = await bot.wait_for("message", check=check, timeout=timeout)
     except asyncio.TimeoutError:
         await ctx.channel.send(f"No one answered the question; The answer was {solution}!")
     else:
-        await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
+        await ctx.channel.send(
+            f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
 @bot.command(name="linearmath")
@@ -119,13 +129,15 @@ async def linearmath(ctx: commands.Context):
         answer = m.content.lower()
         answer = answer.replace(" ", "")
         return m.channel == ctx.channel and answer == str(solution)
+
     startTime = time.time()
     try:
         msg = await bot.wait_for("message", check=check, timeout=timeout)
     except asyncio.TimeoutError:
         await ctx.channel.send(f"No one answered the question; The answer was {solution}!")
     else:
-        await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
+        await ctx.channel.send(
+            f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
 @bot.command(name="quadraticmath")
@@ -142,13 +154,15 @@ async def quadraticmath(ctx: commands.Context):
         answer = m.content.lower()
         answer = answer.replace(" ", "")
         return m.channel == ctx.channel and answer == str(solution)
+
     startTime = time.time()
     try:
         msg = await bot.wait_for("message", check=check, timeout=timeout)
     except asyncio.TimeoutError:
         await ctx.channel.send(f"No one answered the question; The answer was {solution}!")
     else:
-        await ctx.channel.send(f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
+        await ctx.channel.send(
+            f"{msg.author.mention} got the answer correctly in {int(time.time() - startTime)} seconds!")
 
 
 @bot.command(name="unscramble")
@@ -214,7 +228,6 @@ async def info(ctx: commands.Context):
 
 @bot.command(name="socials", aliases=["social"])
 async def socials(ctx: commands.Context):
-
     description = f"<:MLBB:1146157862901514343>: **MothTheMortal 1048896713**\n<:clashofclan:1146158873862995988>: **#2928URGPP**\n<:github:1146156218524631052>: **MothTheMortal**\n<:instagram:1146155920699686932>: **@xmothpvp**\n<:minecraft:1146157223823802518>: **MothTheMortal**\n<:steam:1146159493873418260>: **MothTheMortal**\n<:valorant:1146156993623625841>: **MothTheMortal#Moth**"
     embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
     await ctx.channel.send(embed=embed)
@@ -258,9 +271,9 @@ async def ttsa(ctx: commands.Context, language, *, text=None):
         return
 
     async with tts_lock:
-        channel = ctx.author.voice.channel
-
-        if not channel:
+        try:
+            channel = ctx.author.voice.channel
+        except AttributeError:
             await ctx.send("You are not in a voice channel.")
 
         voice_client = await channel.connect()
@@ -287,10 +300,11 @@ async def tts(ctx: commands.Context, *, text=None):
         return
 
     async with tts_lock:
-        channel = ctx.author.voice.channel
-
-        if not channel:
+        try:
+            channel = ctx.author.voice.channel
+        except AttributeError:
             await ctx.send("You are not in a voice channel.")
+
 
         voice_client = await channel.connect()
 
@@ -311,7 +325,7 @@ async def no_intro(ctx: commands.Context):
     names = [msg.embeds[0].author.name async for msg in intro_channel.history(limit=1000)]
     members = ctx.guild.members
     no_intro_member = []
-    ignore_names = ["starbuckbarista","unknownunfortunately","meowchan101","alternatived"]
+    ignore_names = ["starbuckbarista", "unknownunfortunately", "meowchan101", "alternatived"]
     for member in members:
         if member.name not in names and not member.bot and member.name not in ignore_names:
             no_intro_member.append(member.name)

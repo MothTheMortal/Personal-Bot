@@ -15,6 +15,8 @@ with open("word_data.txt", "r") as file:
 # Colors
 color_theme = 0x2fd034
 
+# Channel Names
+snipeName = "snipe_save"
 
 # External Functions
 def rSym():
