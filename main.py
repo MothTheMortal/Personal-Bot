@@ -63,13 +63,13 @@ async def on_message_delete(message: discord.Message):
     snipe_channel = [channel for channel in message.guild.channels if channel.name == snipeName]
     if snipe_channel:
         snipe_channel = snipe_channel[0]
-
-    if message.channel.id == snipe_channel.id:
-        return
-    if message.attachments:
-        await snipe_channel.send(files=[await f.to_file() for f in message.attachments])
-    else:
-        await snipe_channel.send(f"{message.author.name}: {message.content}")
+        
+        if message.channel.id == snipe_channel.id:
+            return
+        if message.attachments:
+            await snipe_channel.send(files=[await f.to_file() for f in message.attachments])
+        else:
+            await snipe_channel.send(f"{message.author.name}: {message.content}")
 
 
 @tasks.loop(seconds=30)
