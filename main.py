@@ -111,6 +111,8 @@ async def spheal(ctx: commands.Context):
     image.save(iosave, format="PNG")
     iosave.seek(0)
     file = discord.File(fp=iosave, filename="random_spheal.png")
+    text = f"Skin Hex: {RGBtoHex(randomColor)}\nShade Hex: {RGBtoHex(ShadeColor)}"
+
     await ctx.send(file=file)
 
 @bot.command(name="math")

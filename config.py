@@ -316,3 +316,14 @@ def getShadeFromRGB(R, G, B):
 
     R2, G2, B2 = HSVtoRGB(H2, S2, V2)
     return int(R2), int(G2), int(B2)
+
+
+def RGBtoHex(rgb):
+    r, g, b = rgb
+    r = max(0, min(255, r))
+    g = max(0, min(255, g))
+    b = max(0, min(255, b))
+
+    hex_color = f"#{r:02X}{g:02X}{b:02X}"
+
+    return hex_color
