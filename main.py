@@ -100,8 +100,12 @@ async def spheal(ctx: commands.Context):
 
     randomColor = getRandomColor()
     ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
+    eyeColor = getRandomEyeColor()
+
     image = image.convert("RGB")
 
+    ImageDraw.floodfill(image, EyeColorLeft, eyeColor, thresh=50)
+    ImageDraw.floodfill(image, EyeColorRight, eyeColor, thresh=50)
     ImageDraw.floodfill(image, EarShade, ShadeColor, thresh=50)
     ImageDraw.floodfill(image, Shade, ShadeColor, thresh=50)
     ImageDraw.floodfill(image, SkinColor, randomColor, thresh=50)

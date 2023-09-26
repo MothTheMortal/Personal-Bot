@@ -15,7 +15,8 @@ color_theme = 0x2fd034
 SkinColor = (185, 195)
 Shade = (430, 250)
 EarShade = (90, 130)
-
+EyeColorLeft = (120, 200)
+EyeColorRight = (285, 205)
 # Channel Names
 snipeName = "snipe_save"
 introName = "member-introduction"
@@ -306,6 +307,10 @@ def getShade(H, S, V):
         S = 83
         V = 21
     return H, S if S <= 100 else 100, V if V >= 0 else 0
+
+
+def getRandomEyeColor():
+    return HSVtoRGB(random.choice(0, 360), 59, 32)
 
 
 def getShadeFromRGB(R, G, B):
