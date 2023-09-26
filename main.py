@@ -96,7 +96,7 @@ async def serverStatus():
 
 @bot.command(name="spheal")
 async def spheal(ctx: commands.Context):
-    image = Image.open("spheal.png")
+    image = Image.open("spheal2.png")
 
     randomColor = getRandomColor()
     ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
