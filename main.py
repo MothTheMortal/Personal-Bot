@@ -16,7 +16,6 @@ from config import *
 import time
 from PIL import Image, ImageDraw
 
-
 load_dotenv()
 tts_lock = asyncio.Lock()
 
@@ -65,7 +64,7 @@ async def on_message_delete(message: discord.Message):
     snipe_channel = [channel for channel in message.guild.channels if channel.name == snipeName]
     if snipe_channel:
         snipe_channel = snipe_channel[0]
-        
+
         if message.channel.id == snipe_channel.id:
             return
         if message.attachments:
@@ -95,7 +94,6 @@ async def serverStatus():
     await msg.edit(content="", embed=embed)
 
 
-
 @bot.command(name="spheal")
 async def spheal(ctx: commands.Context):
     image = Image.open("spheal.png")
@@ -114,6 +112,7 @@ async def spheal(ctx: commands.Context):
     text = f"Skin Hex: {RGBtoHex(randomColor)}\nShade Hex: {RGBtoHex(ShadeColor)}"
 
     await ctx.send(file=file, content=text)
+
 
 @bot.command(name="math")
 async def math(ctx: commands.Context):
@@ -331,7 +330,6 @@ async def tts(ctx: commands.Context, *, text=None):
             channel = ctx.author.voice.channel
         except AttributeError:
             return await ctx.send("You are not in a voice channel.")
-
 
         voice_client = await channel.connect()
 
