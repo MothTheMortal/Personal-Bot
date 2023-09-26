@@ -110,7 +110,7 @@ async def spheal(ctx: commands.Context):
     iosave = BytesIO()
     image.save(iosave, format="PNG")
     iosave.seek(0)
-    file = discord.File(fp=buffer, filename="random_spheal.png")
+    file = discord.File(fp=iosave, filename="random_spheal.png")
     await ctx.send(file=file)
 
 @bot.command(name="math")
