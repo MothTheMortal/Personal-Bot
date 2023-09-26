@@ -5,19 +5,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-
 # Initialization
 with open("word_data.txt", "r") as file:
     data = file.read()
     words = data.split("\n")
 
-
 # Colors
 color_theme = 0x2fd034
+SkinColor = (185, 195)
+Shade = (430, 250)
+EarShade = (90, 130)
 
 # Channel Names
 snipeName = "snipe_save"
 introName = "member-introduction"
+
 
 # External Functions
 def rSym():
@@ -76,8 +78,6 @@ def getLinear():
     b = random.randrange(-20, 20)
     while b == 0:
         b = random.randrange(-20, 20)
-
-
 
     if b < 0:
         solution = f'y={m}x{b}'
@@ -139,23 +139,14 @@ def getQuadratic():
     # c = random.randint(-10, 10)
     # while c == 0:
     #     c = random.randint(-10, 10)
-    h = random.randint(-5,5)
-    k = random.randint(-5,5)
-    a = random.randint(-5,5)
+    h = random.randint(-5, 5)
+    k = random.randint(-5, 5)
+    a = random.randint(-5, 5)
     while a == 0:
-        a = random.randint(-5,5)
+        a = random.randint(-5, 5)
 
-    b = -2*a*h
-    c = a*(h**2) + k
-    
-
-    
-    
-
-
-    
-
-    
+    b = -2 * a * h
+    c = a * (h ** 2) + k
 
     if a == 1:
         equation = f'y=x^2'
@@ -226,3 +217,102 @@ def getRandomWord():
     scrambledWord = "".join(letters)
 
     return word, scrambledWord
+
+
+def RGBtoHSV(R, G, B):
+    r = R / 255
+    g = G / 255
+    b = B / 255
+
+    Cmax = max(r, g, b)
+    Cmin = min(r, g, b)
+
+    Cdelta = Cmax - Cmin
+
+    V = Cmax
+
+    if Cmax == Cmin:
+        H = 0
+    elif Cmax == r:
+        H = 60 * (((g - b) / Cdelta) % 6)
+    elif Cmax == g:
+        H = 60 * (((b - r) / Cdelta) + 2)
+    else:
+        H = 60 * (((r - g) / Cdelta) + 4)
+
+    if Cmax == 0:
+        S = 0
+    else:
+        S = Cdelta / Cmax
+
+    return H, S * 100, V * 100
+
+
+def getRandomColor():
+    # return randomcolor.RandomColor().generate()[0][1:].upper()
+    return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
+
+
+def _HSVtoRGB(h, s, v):
+    h /= 360
+    s /= 100
+    v /= 100
+
+    if s == 0.0:
+        return v, v, v
+    i = int(h * 6.0)
+    f = (h * 6.0) - i
+    p = v * (1.0 - s)
+    q = v * (1.0 - s * f)
+    t = v * (1.0 - s * (1.0 - f))
+    i = i % 6
+    if i == 0:
+        return v, t, p
+    if i == 1:
+        return q, v, p
+    if i == 2:
+        return p, v, t
+    if i == 3:
+        return p, q, v
+    if i == 4:
+        return t, p, v
+    if i == 5:
+        return v, p, q
+
+
+def HSVtoRGB(h, s, v):
+    R, G, B = _HSVtoRGB(h, s, v)
+    return R * 255, G * 255, B * 255
+
+
+def getShade(H, S, V):
+    if H >= 240:
+        H -= 10
+
+    elif H >= 60:
+        H += 15
+
+    elif H >= 0:
+        H -= 10
+
+    S += 10
+    V -= 10
+
+    if S > 90:
+        S = 100
+        V -= 30
+
+    if V == 0:
+        H = 238
+        S = 83
+        V = 21
+    return H, S if S <= 100 else 100, V if V >= 0 else 0
+
+
+def getShadeFromRGB(R, G, B):
+    H, S, V = RGBtoHSV(R, G, B)
+
+    H2, S2, V2 = getShade(H, S, V)
+
+    R2, G2, B2 = HSVtoRGB(H2, S2, V2)
+    return int(R2), int(G2), int(B2)

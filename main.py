@@ -14,6 +14,8 @@ import requests
 from mcstatus import JavaServer
 from config import *
 import time
+from PIL import Image, ImageDraw
+
 
 load_dotenv()
 tts_lock = asyncio.Lock()
@@ -92,6 +94,24 @@ async def serverStatus():
     embed.set_footer(text="Refreshes every 30 seconds.")
     await msg.edit(content="", embed=embed)
 
+
+
+@bot.command(name="spheal")
+async def spheal(ctx: commands.Context):
+    image = Image.open("spheal.png")
+
+    randomColor = getRandomColor()
+    ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
+    image = image.convert("RGB")
+
+    ImageDraw.floodfill(image, SkinColor, randomColor, thresh=50)
+    ImageDraw.floodfill(image, Shade, ShadeColor, thresh=50)
+    ImageDraw.floodfill(image, EarShade, ShadeColor, thresh=50)
+    iosave = BytesIO()
+    image.save(iosave, format="PNG")
+    iosave.seek(0)
+    file = discord.File(fp=buffer, filename="random_spheal.png")
+    await ctx.send(file=file)
 
 @bot.command(name="math")
 async def math(ctx: commands.Context):
