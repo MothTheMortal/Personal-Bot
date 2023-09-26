@@ -300,13 +300,12 @@ def getShade(H, S, V):
 
     if S > 90:
         S = 100
-        V -= 30
 
     if V == 0:
         H = 238
         S = 83
         V = 21
-    return H, S if S <= 100 else 100, -10
+    return H, S if S <= 100 else 100, V if V >= 0 else 0
 
 
 def getShadeFromRGB(R, G, B):

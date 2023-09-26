@@ -102,9 +102,10 @@ async def spheal(ctx: commands.Context):
     ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
     image = image.convert("RGB")
 
-    ImageDraw.floodfill(image, SkinColor, randomColor, thresh=50)
-    ImageDraw.floodfill(image, Shade, ShadeColor, thresh=50)
     ImageDraw.floodfill(image, EarShade, ShadeColor, thresh=50)
+    ImageDraw.floodfill(image, Shade, ShadeColor, thresh=50)
+    ImageDraw.floodfill(image, SkinColor, randomColor, thresh=50)
+
     iosave = BytesIO()
     image.save(iosave, format="PNG")
     iosave.seek(0)
