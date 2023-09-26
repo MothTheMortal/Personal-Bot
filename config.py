@@ -310,7 +310,7 @@ def getShade(H, S, V):
 
 
 def getRandomEyeColor():
-    return HSVtoRGB(random.choice(0, 360), 59, 32)
+    return HSVtoRGB(random.randint(0, 360), 59, 32)
 
 
 def getShadeFromRGB(R, G, B):
