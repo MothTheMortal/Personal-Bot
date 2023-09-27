@@ -4,7 +4,7 @@ from random import randint, choice
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-
+from PIL import Image,
 # Initialization
 with open("word_data.txt", "r") as file:
     data = file.read()
@@ -283,7 +283,7 @@ def _HSVtoRGB(h, s, v):
 
 def HSVtoRGB(h, s, v):
     R, G, B = _HSVtoRGB(h, s, v)
-    return R * 255, G * 255, B * 255
+    return int(R * 255), int(G * 255), int(B * 255)
 
 
 def getShade(H, S, V):
@@ -320,7 +320,7 @@ def getShadeFromRGB(R, G, B):
     H2, S2, V2 = getShade(H, S, V)
 
     R2, G2, B2 = HSVtoRGB(H2, S2, V2)
-    return int(R2), int(G2), int(B2)
+    return int(H2), int(R2), int(G2), int(B2)
 
 
 def RGBtoHex(rgb):
@@ -332,3 +332,26 @@ def RGBtoHex(rgb):
     hex_color = f"#{r:02X}{g:02X}{b:02X}"
 
     return hex_color
+
+
+def getRandomSpot(color=None):
+    spots = ["spot_heart.png", "spot_circle.png", "spot_square.png", "spot_star.png"]
+    spot = Image.open(random.choice(spots))
+
+    if color:
+
+        spot_color = HSVtoRGB(color[0], color[1], color[2])
+
+        colored_spot = Image.new("RGBA", spot.size)
+        for x in range(spot.width):
+            for y in range(spot.height):
+
+                pixel_color = spot.getpixel((x, y))
+                alpha = pixel_color[3]
+
+                if alpha > 0:
+                    new_pixel_color = spot_color + (alpha,)
+                    colored_spot.putpixel((x, y), new_pixel_color)
+        return colored_spot
+    else:
+        return spot
