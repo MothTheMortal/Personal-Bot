@@ -118,7 +118,7 @@ async def spheal(ctx: commands.Context):
     image.save(iosave, format="PNG")
     iosave.seek(0)
     file = discord.File(fp=iosave, filename="random_spheal.png")
-    text = f"Skin Hex: {RGBtoHex(randomColor)}\nShade Hex: {RGBtoHex(ShadeColor)}\nEye Hex: {RGBtoHex(eyeColor)}"
+    text = f"Skin Hex: {RGBtoHex(randomColor)}\nShade Hex: {RGBtoHex(ShadeColor)}\nEye Hex: {RGBtoHex(eyeColor)}\nSpot Hex: {RGBtoHex(HSVtoRGB(RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0], 19, 100))}"
 
     await ctx.send(file=file, content=text)
 
