@@ -99,7 +99,7 @@ async def spheal(ctx: commands.Context):
     image = Image.open("spheal2.png")
 
     randomColor = getRandomColor()
-    H, ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
+    ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
     eyeColor = getRandomEyeColor()
 
     image = image.convert("RGB")
@@ -110,7 +110,7 @@ async def spheal(ctx: commands.Context):
     ImageDraw.floodfill(image, Shade, ShadeColor, thresh=50)
     ImageDraw.floodfill(image, SkinColor, randomColor, thresh=50)
 
-    spot = getRandomSpot((H, 19, 100))
+    spot = getRandomSpot((RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0], 19, 100))
 
     image.paste(spot, (0, 0), spot)
 

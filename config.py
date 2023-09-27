@@ -325,7 +325,7 @@ def getShadeFromRGB(R, G, B):
     H2, S2, V2 = getShade(H, S, V)
 
     R2, G2, B2 = HSVtoRGB(H2, S2, V2)
-    return int(H2), int(R2), int(G2), int(B2)
+    return int(R2), int(G2), int(B2)
 
 
 def RGBtoHex(rgb):
