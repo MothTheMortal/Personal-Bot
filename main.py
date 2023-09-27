@@ -46,7 +46,7 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member: discord.Member):
-    if not member.guild in [1145420194341204080]:
+    if member.guild not in [1145420194341204080]:
         return
 
     member_role = member.guild.get_role(1154077513824354355)
