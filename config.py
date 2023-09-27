@@ -4,11 +4,14 @@ from random import randint, choice
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-from PIL import Image,
+from PIL import Image
+
+
 # Initialization
 with open("word_data.txt", "r") as file:
     data = file.read()
     words = data.split("\n")
+
 
 # Colors
 color_theme = 0x2fd034
@@ -17,6 +20,8 @@ Shade = (430, 250)
 EarShade = (90, 130)
 EyeColorLeft = (120, 200)
 EyeColorRight = (285, 205)
+
+
 # Channel Names
 snipeName = "snipe_save"
 introName = "member-introduction"
