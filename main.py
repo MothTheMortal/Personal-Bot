@@ -108,14 +108,14 @@ async def play(ctx: discord.Interaction, link: str):
 
         description = f"Title: {yt.title}\nLength: {yt.length // 60} minutes {yt.length % 60} seconds"
 
-        embed = discord.Embed(title=f"Song Player", description=description)
+        embed = discord.Embed(title=f"Playing Song", description=description)
         embed.set_image(url=yt.thumbnail_url)
         embed.set_footer(text="Playing...")
 
         try:
             channel = ctx.user.voice.channel
         except AttributeError:
-            return await ctx.followup.send("You are not in a voice channel.")
+            return await ctx.followup.send("You are not in a voice channel.", ephemereal=True)
 
         await ctx.followup.send(embed=embed)
 
@@ -123,7 +123,7 @@ async def play(ctx: discord.Interaction, link: str):
 
         stream = yt.streams.get_audio_only()
         stream.download("temp_music.mp3")
-
+        await asyncio.sleep(2)
         source = discord.FFmpegPCMAudio("temp_music.mp3")
         voice_client.play(source)
         while voice_client.is_playing():
