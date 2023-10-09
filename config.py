@@ -336,7 +336,14 @@ def getShade(H, S, V):
 
 
 def getRandomEye(H):
-    R, G, B = HSVtoRGB(random.randint(H - 40, H + 40), 59, 35)
+    H = int(H)
+    newH = random.randint(H - 40, H + 40)
+    if newH < 0:
+        newH = 360 + newH
+    elif newH > 360:
+        newH = newH - 360
+
+    R, G, B = HSVtoRGB(newH, 59, 35)
     R, G, B = int(R), int(G), int(B)
 
     Eye = Image.open("sphealeye.png")
