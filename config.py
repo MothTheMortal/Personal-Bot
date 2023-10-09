@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 from PIL import Image, ImageDraw
-
+import discord
 
 # Initialization
 with open("word_data.txt", "r") as file:
