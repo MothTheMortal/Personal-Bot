@@ -352,7 +352,7 @@ def getRandomEye(H):
     ImageDraw.floodfill(Eye, EyeColorLeft, EyeColor, thresh=50)
     ImageDraw.floodfill(Eye, EyeColorRight, EyeColor, thresh=50)
 
-    return Eye
+    return Eye, EyeColor
 
 
 

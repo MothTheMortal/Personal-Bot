@@ -122,7 +122,7 @@ async def spheal():
 
     randomColor = getRandomColor()
     ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
-    eyeIMG = getRandomEye((RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0]))
+    eyeIMG, eyeColor = getRandomEye((RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0]))
 
     image = image.convert("RGB")
 
