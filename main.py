@@ -96,9 +96,9 @@ async def serverStatus():
 
 @bot.tree.command(name="hatch", description="Hatch 3 spheals!")
 async def hatch(ctx: discord.Interaction):
-    sphealIMG1, sphealID1 = spheal()
-    sphealIMG2, sphealID2 = spheal()
-    sphealIMG3, sphealID3 = spheal()
+    sphealIMG1, sphealID1 = await spheal()
+    sphealIMG2, sphealID2 = await spheal()
+    sphealIMG3, sphealID3 = await spheal()
 
     totalIMG = concatenateIMG(sphealIMG1, sphealIMG2)
     totalIMGFile = IMGtoFile(concatenateIMG(totalIMG, sphealIMG3))
