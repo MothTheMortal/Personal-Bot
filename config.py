@@ -4,7 +4,7 @@ from random import randint, choice
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-from PIL import Image
+from PIL import Image, ImageDraw
 
 
 # Initialization
