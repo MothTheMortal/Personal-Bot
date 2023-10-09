@@ -97,6 +97,7 @@ async def serverStatus():
 @bot.tree.command(name="play")
 @app_commands.describe(link="the URL to the song.")
 async def play(ctx: discord.Interaction, link: str):
+    await ctx.response.defer()
     if tts_lock.locked():
         await ctx.send("The bot is being used. Please wait.")
         return
@@ -114,9 +115,9 @@ async def play(ctx: discord.Interaction, link: str):
         try:
             channel = ctx.author.voice.channel
         except AttributeError:
-            return await ctx.send("You are not in a voice channel.")
+            return await ctx.followup.send("You are not in a voice channel.")
 
-        await ctx.response.send_message(embed=embed)
+        await ctx.followup.send(embed=embed)
 
         voice_client = await channel.connect()
 
