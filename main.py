@@ -94,6 +94,36 @@ async def serverStatus():
     await msg.edit(content="", embed=embed)
 
 
+@bot.tree.command(name="play")
+@app_commands.describe(link="the URL to the song.")
+async def play(ctx: discord.Interaction, link: str):
+    if tts_lock.locked():
+        await ctx.send("The bot is being used. Please wait.")
+        return
+
+    async with tts_lock:
+
+        yt = pytube.YouTube(link)
+
+        description = f"Title: {yt.title}\nLength: {yt.length // 60} minutes {yt.length % 60} seconds"
+
+        embed = discord.Embed(title=f"Song Player", description=description)
+        embed.set_image(url=yt.thumbnail_url)
+        embed.set_footer(text="Playing...")
+
+        stream = yt.streams.get_audio_only()
+        stream.download("temp_music.mp3")
+
+        source = discord.FFmpegPCMAudio("temp_music.mp3")
+        voice_client.play(source)
+        while voice_client.is_playing():
+            await asyncio.sleep(1)
+        await voice_client.disconnect()
+        os.remove("temp_music.mp3")
+
+
+
+
 @bot.tree.command(name="hatch", description="Hatch 3 spheals!")
 async def hatch(ctx: discord.Interaction):
     await ctx.response.defer()
@@ -104,7 +134,6 @@ async def hatch(ctx: discord.Interaction):
     totalIMG = concatenateIMG(sphealIMG1, sphealIMG2)
     totalIMGFile = IMGtoFile(concatenateIMG(totalIMG, sphealIMG3))
     await ctx.followup.send(file=totalIMGFile)
-
 
 
 @bot.tree.command(name="adopt", description="Adopt a spheal!")
@@ -322,7 +351,7 @@ async def download_yt(ctx: discord.Interaction, link: str, filetype: Choice[str]
 @bot.command(name="ttsa")
 async def ttsa(ctx: commands.Context, language, *, text=None):
     if tts_lock.locked():
-        await ctx.send("The command is already running. Please wait.")
+        await ctx.send("The bot is being used. Please wait.")
         return
 
     async with tts_lock:
@@ -351,7 +380,7 @@ async def ttsa(ctx: commands.Context, language, *, text=None):
 @bot.command(name="tts")
 async def tts(ctx: commands.Context, *, text=None):
     if tts_lock.locked():
-        await ctx.send("The command is already running. Please wait.")
+        await ctx.send("The bot is being used. Please wait.")
         return
 
     async with tts_lock:

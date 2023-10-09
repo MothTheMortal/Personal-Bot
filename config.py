@@ -355,8 +355,6 @@ def getRandomEye(H):
     return Eye, EyeColor
 
 
-
-
 def getShadeFromRGB(R, G, B):
     H, S, V = RGBtoHSV(R, G, B)
 
