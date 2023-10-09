@@ -103,8 +103,7 @@ async def hatch(ctx: discord.Interaction):
 
     totalIMG = concatenateIMG(sphealIMG1, sphealIMG2)
     totalIMGFile = IMGtoFile(concatenateIMG(totalIMG, sphealIMG3))
-
-    await ctx.channel.send(file=totalIMGFile)
+    await ctx.message.reply(file=totalIMGFile)
 
 
 
