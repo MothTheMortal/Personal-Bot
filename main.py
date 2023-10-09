@@ -111,6 +111,15 @@ async def play(ctx: discord.Interaction, link: str):
         embed.set_image(url=yt.thumbnail_url)
         embed.set_footer(text="Playing...")
 
+        try:
+            channel = ctx.author.voice.channel
+        except AttributeError:
+            return await ctx.send("You are not in a voice channel.")
+
+        await ctx.response.send_message(embed=embed)
+
+        voice_client = await channel.connect()
+
         stream = yt.streams.get_audio_only()
         stream.download("temp_music.mp3")
 
