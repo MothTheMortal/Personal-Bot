@@ -348,8 +348,8 @@ def getRandomEye(H):
 
     Eye = Image.open("sphealeye.png")
 
-    ImageDraw.floodfill(Eye, EyeColorLeft, [R, G, B], thresh=50)
-    ImageDraw.floodfill(Eye, EyeColorRight, [R, G, B], thresh=50)
+    ImageDraw.floodfill(Eye, EyeColorLeft, (R, G, B), thresh=50)
+    ImageDraw.floodfill(Eye, EyeColorRight, (R, G, B), thresh=50)
 
     return Eye
 
