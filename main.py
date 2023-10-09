@@ -94,33 +94,53 @@ async def serverStatus():
     await msg.edit(content="", embed=embed)
 
 
-@bot.command(name="spheal")
-async def spheal(ctx: commands.Context):
+@bot.tree.command(name="hatch", description="Hatch 3 spheals!")
+async def hatch(ctx: discord.Interaction):
+    sphealIMG1, sphealID1 = spheal()
+    sphealIMG2, sphealID2 = spheal()
+    sphealIMG3, sphealID3 = spheal()
+
+    totalIMG = concatenateIMG(sphealIMG1, sphealIMG2)
+    totalIMGFile = IMGtoFile(concatenateIMG(totalIMG, sphealIMG3))
+
+    await ctx.response.send_message(file=totalIMGFile)
+
+
+
+@bot.tree.command(name="adopt", description="Adopt a spheal!")
+async def adopt(ctx: discord.Interaction):
+    ...
+
+
+@bot.tree.command(name="disown", description="Disown your spheal!")
+async def disown(ctx: discord.Interaction):
+    ...
+
+
+async def spheal():
     image = Image.open("spheal2.png")
 
     randomColor = getRandomColor()
     ShadeColor = getShadeFromRGB(randomColor[0], randomColor[1], randomColor[2])
-    eyeColor = getRandomEyeColor()
+    eyeIMG = getRandomEye((RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0]))
 
     image = image.convert("RGB")
 
-    ImageDraw.floodfill(image, EyeColorLeft, eyeColor, thresh=50)
-    ImageDraw.floodfill(image, EyeColorRight, eyeColor, thresh=50)
+
     ImageDraw.floodfill(image, EarShade, ShadeColor, thresh=50)
     ImageDraw.floodfill(image, Shade, ShadeColor, thresh=50)
     ImageDraw.floodfill(image, SkinColor, randomColor, thresh=50)
 
-    spot = getRandomSpot((RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0], 19, 100))
+    spotIMG = getRandomSpot((RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0], 19, 100))
 
-    image.paste(spot, (0, 0), spot)
+    image.paste(spotIMG, (0, 0), spotIMG)
+    image.paste(eyeIMG, (0, 0), eyeIMG)
+    sphealID = RGBtoHex(randomColor) + RGBtoHex(ShadeColor) + RGBtoHex(eyeColor) + RGBtoHex(HSVtoRGB(RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0], 19, 100))
 
-    iosave = BytesIO()
-    image.save(iosave, format="PNG")
-    iosave.seek(0)
-    file = discord.File(fp=iosave, filename="random_spheal.png")
-    text = f"Skin Hex: {RGBtoHex(randomColor)}\nShade Hex: {RGBtoHex(ShadeColor)}\nEye Hex: {RGBtoHex(eyeColor)}\nSpot Hex: {RGBtoHex(HSVtoRGB(RGBtoHSV(ShadeColor[0], ShadeColor[1], ShadeColor[2])[0], 19, 100))}"
+    # if sphealID in generatedSpheals:
+    #     return await spheal()
 
-    await ctx.send(file=file, content=text)
+    return image, sphealID
 
 
 @bot.command(name="math")

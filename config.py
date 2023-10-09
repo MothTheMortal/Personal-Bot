@@ -18,8 +18,8 @@ color_theme = 0x2fd034
 SkinColor = (185, 195)
 Shade = (430, 250)
 EarShade = (90, 130)
-EyeColorLeft = (120, 200)
-EyeColorRight = (285, 205)
+EyeColorLeft = (144, 198)
+EyeColorRight = (283, 197)
 
 
 # Channel Names
@@ -28,6 +28,27 @@ introName = "member-introduction"
 
 
 # External Functions
+
+
+def concatenateIMG(Image1, Image2):
+    emptyIMG = Image.new("RGB", (Image1.width + Image2.width, Image1.height))
+    emptyIMG.paste(Image1, (0, 0))
+    emptyIMG.paste(Image2, (Image1.width, 0))
+
+    return emptyIMG
+
+
+def IMGtoFile(Image, filename=None):
+
+    if not filename:
+        filename = "generated_image"
+
+    IOFile = BytesIO()
+    Image.save(IOFile, format="PNG")
+    IOFile.seek(0)
+    return discord.File(fp=IOFile, filename=filename + ".png")
+
+
 def rSym():
     return choice(['+', '-'])
 
@@ -314,9 +335,18 @@ def getShade(H, S, V):
     return H, S if S <= 100 else 100, V if V >= 0 else 0
 
 
-def getRandomEyeColor():
-    R, G, B = HSVtoRGB(random.randint(0, 360), 59, 32)
-    return int(R), int(G), int(B)
+def getRandomEye(H):
+    R, G, B = HSVtoRGB(random.randint(H - 40, H + 40), 59, 35)
+    R, G, B = int(R), int(G), int(B)
+
+    Eye = Image.open("sphealeye.png")
+
+    ImageDraw.floodfill(Eye, EyeColorLeft, [R, G, B], thresh=50)
+    ImageDraw.floodfill(Eye, EyeColorRight, [R, G, B], thresh=50)
+
+    return Eye
+
+
 
 
 def getShadeFromRGB(R, G, B):
@@ -337,6 +367,7 @@ def RGBtoHex(rgb):
     hex_color = f"#{r:02X}{g:02X}{b:02X}"
 
     return hex_color
+
 
 
 def getRandomSpot(color=None):
