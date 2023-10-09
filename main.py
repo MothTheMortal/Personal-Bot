@@ -112,7 +112,10 @@ async def play(ctx: discord.Interaction, link: str):
         embed.set_image(url=yt.thumbnail_url)
         embed.set_footer(text="Playing...")
 
-        channel = ctx.author.voice.channel
+        try:
+            channel = ctx.user.voice.channel
+        except AttributeError:
+            return await ctx.followup.send("You are not in a voice channel.")
 
         await ctx.followup.send(embed=embed)
 
