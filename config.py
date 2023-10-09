@@ -345,7 +345,7 @@ def getRandomEye(H):
 
     R, G, B = HSVtoRGB(newH, 59, 35)
     R, G, B = int(R), int(G), int(B)
-
+    print(R,g,b)
     Eye = Image.open("sphealeye.png")
     EyeColor = R, G, B
     ImageDraw.floodfill(Eye, EyeColorLeft, EyeColor, thresh=50)
