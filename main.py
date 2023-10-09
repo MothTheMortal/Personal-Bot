@@ -122,7 +122,7 @@ async def play(ctx: discord.Interaction, link: str):
         voice_client = await channel.connect()
 
         stream = yt.streams.get_audio_only()
-        stream.download("temp_music.mp3")
+        stream.download(filename="temp_music.mp3")
         await asyncio.sleep(2)
         source = discord.FFmpegPCMAudio("temp_music.mp3")
         voice_client.play(source)
