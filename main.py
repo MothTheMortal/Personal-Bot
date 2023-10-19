@@ -398,7 +398,7 @@ async def socials(ctx: commands.Context):
             continue
 
         if value:
-            description += f"{emojis[key]}: {value if type(value) == str else ' '.join(value)}"
+            description += f"{emojis[key]}: **{value if type(value) == str else ' '.join(value)}**"
 
     if description == "":
         description = "No socials here :("
