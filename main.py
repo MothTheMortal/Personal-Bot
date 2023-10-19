@@ -71,7 +71,6 @@ class SocialGroup(app_commands.Group):
     ...
 
 
-socialGroup = SocialGroup(name="social", description="test ")
 
 
 @bot.event
@@ -79,7 +78,8 @@ async def on_ready():
     serverStatus.start()
     print(f"{bot.user.name} is online.")
     print(f"{len(await bot.tree.sync())} commands loaded.")
-
+    
+    socialGroup = SocialGroup(name="social", description="test ")
     bot.tree.add_command(socialGroup)
 
 
