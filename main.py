@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 from os import getenv
 from datetime import datetime
 from discord.app_commands import Choice, choices
-from discord import app_commands
+from discord.ui import View, Button, Select
+from discord import app_commands, SelectOption
 from gtts import gTTS
 import io
 import asyncio
@@ -105,7 +106,6 @@ async def play(ctx: discord.Interaction, link: str):
     async with tts_lock:
 
         yt = pytube.YouTube(link)
-
         description = f"Title: {yt.title}\nLength: {yt.length // 60} minutes {yt.length % 60} seconds"
 
         embed = discord.Embed(title=f"Playing Song", description=description)
@@ -117,18 +117,38 @@ async def play(ctx: discord.Interaction, link: str):
         except AttributeError:
             return await ctx.followup.send("You are not in a voice channel.", ephemereal=True)
 
+        view = View(timeout=None)
+
+        options = [SelectOption(label=f"Volume: {num}%", value=f"{num}", emoji=":loud_sound:") for i in range(10, 91, 10)]
+        options.append(SelectOption(label=f"Volume: 100%", value=f"100", emoji=":loud_sound:", default=True))
+
+        async def dropdown_callback(ctx: discord.Interaction):
+            volume = int(dropdown.values[0])
+
+
+
+
+        dropdown = Select(placeholder="Song Volume", min_values=1, max_values=1, options=options)
+        dropdown.callback = dropdown_callback
         await ctx.followup.send(embed=embed)
 
-        voice_client = await channel.connect()
 
+        voice_client = await channel.connect()
         stream = yt.streams.get_audio_only()
         stream.download(filename="temp_music.mp3")
         await asyncio.sleep(2)
         source = discord.FFmpegPCMAudio("temp_music.mp3")
         voice_client.play(source)
+
+
         while voice_client.is_playing():
+
             await asyncio.sleep(1)
         await voice_client.disconnect()
+
+
+
+
         os.remove("temp_music.mp3")
 
 
