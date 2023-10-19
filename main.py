@@ -31,7 +31,7 @@ def get_database_collection(cln):
 
 
 def generate_social_doc(user_id):
-    collection = get_database_collection("lotm")
+    collection = get_database_collection("social")
 
     doc = collection.find_one({"_id": user_id})
 
