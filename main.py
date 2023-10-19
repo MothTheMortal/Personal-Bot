@@ -31,7 +31,8 @@ def get_database_collection(cln):
 
 
 def generate_social_doc(user_id):
-    collection = get_database_collection("social")
+    collection = get_database_collection("social"
+                                         "")
 
     doc = collection.find_one({"_id": user_id})
 
@@ -387,7 +388,7 @@ async def socials(ctx: commands.Context):
     # embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
     # await ctx.channel.send(embed=embed)
 
-    collection = get_database_collection("lotm")
+    collection = get_database_collection("social")
     doc = collection.find_one({"_id": ctx.author.id})
 
     description = ""
