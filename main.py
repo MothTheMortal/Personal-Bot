@@ -74,7 +74,7 @@ class SocialGroup(app_commands.Group):
 
         collection = get_database_collection("social")
 
-        collection.update_one({"_id": ctx.user.id}, {"instagram": "@" + username})
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"instagram": "@" + username}})
 
         await ctx.response.send_message(f"Instagram: {'@' + username}", ephemeral=True)
 
