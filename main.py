@@ -72,7 +72,7 @@ class SocialGroup(app_commands.Group):
     async def instagram(self, ctx: discord.Interaction, username: str):
         generate_social_doc(ctx.user.id)
 
-        collection = get_database_collection("lotm")
+        collection = get_database_collection("social")
 
         doc = collection.find_one({"_id": ctx.user.id})
 
