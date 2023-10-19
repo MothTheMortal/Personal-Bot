@@ -92,6 +92,8 @@ async def on_ready():
     socialGroup = SocialGroup(name="social", description="test ")
     bot.tree.add_command(socialGroup)
 
+    await bot.tree.sync()
+
 
 
 @bot.event
