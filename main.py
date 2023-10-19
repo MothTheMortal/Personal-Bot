@@ -68,7 +68,17 @@ bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".")
 
 
 class SocialGroup(app_commands.Group):
-    ...
+    @app_commands.command()
+    async def instagram(self, ctx: discord.Interaction, username: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("lotm")
+
+        doc = collection.find_one({"_id": ctx.user.id})
+
+        doc["instagram"] = "@" + username
+
+        await ctx.response.send_message(f"Instagram: {'@' + username}", ephemeral=True)
 
 
 
@@ -78,7 +88,7 @@ async def on_ready():
     serverStatus.start()
     print(f"{bot.user.name} is online.")
     print(f"{len(await bot.tree.sync())} commands loaded.")
-    
+
     socialGroup = SocialGroup(name="social", description="test ")
     bot.tree.add_command(socialGroup)
 
@@ -409,19 +419,7 @@ async def socials(ctx: commands.Context):
 
 
 
-@socialGroup.command()
-async def instagram(ctx: discord.Interaction, username: str):
 
-    generate_social_doc(ctx.user.id)
-
-    collection = get_database_collection("lotm")
-
-    doc = collection.find_one({"_id": ctx.user.id})
-
-
-    doc["instagram"] = "@" + username
-
-    await ctx.response.send_message(f"Instagram: {'@' + username}", ephemeral=True)
 
 
 
