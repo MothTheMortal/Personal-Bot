@@ -16,14 +16,40 @@ from mcstatus import JavaServer
 from config import *
 import time
 from PIL import Image, ImageDraw
+import pymongo
 
 load_dotenv()
 tts_lock = asyncio.Lock()
 
 TOKEN = getenv("BOT_TOKEN")
+DB_KEY = getenv("MONGODB")
+database = pymongo.MongoClient(DB_KEY)["lotm"]
+
+
+def get_database_collection(cln):
+    return database[cln]
+
+
+def generate_social_doc(user_id):
+    collection = get_database_collection("lotm")
+
+    if not collection.find_one({"_id": user_id}):
+        doc = {
+            "_id": user_id,
+            "instagram": "",
+            "github": "",
+            "mlbb": [],
+            "coc": [],
+            "minecraft": "",
+            "steam": "",
+            "valorant": ""
+        }
+
+        collection.insert_one(doc)
+
+
 
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".")
-
 
 # @bot.command(name="test", description="Used for running temporary one-off commands.")
 # async def test(ctx: commands.Context):
@@ -38,11 +64,21 @@ bot = commands.Bot(intents=discord.Intents.all(), command_prefix=".")
 #             pass
 
 
+class SocialGroup(app_commands.Group):
+    ...
+
+
+socialGroup = SocialGroup(name="social", description="test ")
+
+
 @bot.event
 async def on_ready():
     serverStatus.start()
     print(f"{bot.user.name} is online.")
     print(f"{len(await bot.tree.sync())} commands loaded.")
+
+    bot.tree.add_command(socialGroup)
+
 
 
 @bot.event
@@ -342,9 +378,51 @@ async def info(ctx: commands.Context):
 
 @bot.command(name="socials", aliases=["social"])
 async def socials(ctx: commands.Context):
-    description = f"<:MLBB:1146157862901514343>: **MothTheMortal 1048896713**\n<:clashofclan:1146158873862995988>: **#2928URGPP**\n<:github:1146156218524631052>: **MothTheMortal**\n<:instagram:1146155920699686932>: **@xmothpvp**\n<:minecraft:1146157223823802518>: **MothTheMortal**\n<:steam:1146159493873418260>: **MothTheMortal**\n<:valorant:1146156993623625841>: **MothTheMortal#Moth**"
-    embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
+
+    generate_social_doc(ctx.author.id)
+
+    # description = f"<:MLBB:1146157862901514343>: **MothTheMortal 1048896713**\n<:clashofclan:1146158873862995988>: **#2928URGPP**\n<:github:1146156218524631052>: **MothTheMortal**\n<:instagram:1146155920699686932>: **@xmothpvp**\n<:minecraft:1146157223823802518>: **MothTheMortal**\n<:steam:1146159493873418260>: **MothTheMortal**\n<:valorant:1146156993623625841>: **MothTheMortal#Moth**"
+    # embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
+    # await ctx.channel.send(embed=embed)
+
+    collection = get_database_collection("lotm")
+    doc = collection.find_one({"_id": ctx.author.id})
+
+    description = ""
+
+    for key, value in doc.items():
+        if key == "_id":
+            continue
+
+        if value:
+            description += f"{emojis[key]}: {value if type(value) == str else ' '.join(value)}"
+
+    if description == "":
+        description = "No socials here :("
+
+    embed = discord.Embed(title=f"{ctx.author.name}'s Socials", description=description, color=color_theme)
     await ctx.channel.send(embed=embed)
+
+
+
+
+@socialGroup.command()
+async def instagram(ctx: discord.Interaction, username: str):
+
+    generate_social_doc(ctx.user.id)
+
+    collection = get_database_collection("lotm")
+
+    doc = collection.find_one({"_id": ctx.user.id})
+
+
+    doc["instagram"] = "@" + username
+
+    await ctx.response.send_message(f"Instagram: {'@' + username}", ephemeral=True)
+
+
+
+
 
 
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")

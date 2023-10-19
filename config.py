@@ -22,6 +22,19 @@ EyeColorLeft = (144, 198)
 EyeColorRight = (283, 197)
 
 
+emojis = {
+    "mlbb": "<:MLBB:1146157862901514343>",
+    "coc": "<:clashofclan:1146158873862995988>",
+    "github": "<:github:1146156218524631052>",
+    "instagram": "<:instagram:1146155920699686932>",
+    "minecraft": "<:minecraft:1146157223823802518>",
+    "steam": "<:steam:1146159493873418260>",
+    "valorant": "<:valorant:1146156993623625841>"
+}
+
+
+
+
 # Channel Names
 snipeName = "snipe_save"
 introName = "member-introduction"
