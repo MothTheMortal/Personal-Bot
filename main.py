@@ -33,7 +33,9 @@ def get_database_collection(cln):
 def generate_social_doc(user_id):
     collection = get_database_collection("lotm")
 
-    if not collection.find_one({"_id": user_id}):
+    doc = collection.find_one({"_id": user_id})
+
+    if doc is None:
         doc = {
             "_id": user_id,
             "instagram": "",
