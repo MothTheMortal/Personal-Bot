@@ -394,10 +394,6 @@ async def socials(ctx: commands.Context):
 
     generate_social_doc(ctx.author.id)
 
-    # description = f"<:MLBB:1146157862901514343>: **MothTheMortal 1048896713**\n<:clashofclan:1146158873862995988>: **#2928URGPP**\n<:github:1146156218524631052>: **MothTheMortal**\n<:instagram:1146155920699686932>: **@xmothpvp**\n<:minecraft:1146157223823802518>: **MothTheMortal**\n<:steam:1146159493873418260>: **MothTheMortal**\n<:valorant:1146156993623625841>: **MothTheMortal#Moth**"
-    # embed = discord.Embed(title="MothTheMortal's Socials", description=description, color=color_theme)
-    # await ctx.channel.send(embed=embed)
-
     collection = get_database_collection("social")
     doc = collection.find_one({"_id": ctx.author.id})
 
