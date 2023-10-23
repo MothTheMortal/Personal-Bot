@@ -92,6 +92,7 @@ class SocialGroup(app_commands.Group):
 
         await ctx.response.send_message(f"Clash of Clans: {' '.join(data)}", ephemeral=True)
 
+
     @app_commands.command()
     async def mlbb(self, ctx: discord.Interaction, username: str, userid: str):
         generate_social_doc(ctx.user.id)
@@ -104,6 +105,19 @@ class SocialGroup(app_commands.Group):
 
         await ctx.response.send_message(f"MLBB: {' '.join(data)}", ephemeral=True)
 
+
+
+    @app_commands.command()
+    async def valorant(self, ctx: discord.Interaction, username: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("social")
+
+        data = username
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"valorant": data}})
+
+        await ctx.response.send_message(f"Valorant: {data}", ephemeral=True)
 
 
 @bot.event
