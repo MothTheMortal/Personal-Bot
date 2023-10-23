@@ -74,9 +74,23 @@ class SocialGroup(app_commands.Group):
 
         collection = get_database_collection("social")
 
-        collection.update_one({"_id": ctx.user.id}, {"$set": {"instagram": "@" + username}})
+        data = "@" + username
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"instagram": data}})
 
         await ctx.response.send_message(f"Instagram: {'@' + username}", ephemeral=True)
+
+    @app_commands.command()
+    async def coc(self, ctx: discord.Interaction, clashid: str, username: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("social")
+
+        data = [clashid if "#" in clashid else "#" + clashid, username]
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"coc": data}})
+
+        await ctx.response.send_message(f"Instagram: {' '.join(data)}", ephemeral=True)
 
 
 
@@ -411,15 +425,6 @@ async def socials(ctx: commands.Context):
 
     embed = discord.Embed(title=f"{ctx.author.name}'s Socials", description=description, color=color_theme)
     await ctx.channel.send(embed=embed)
-
-
-
-
-
-
-
-
-
 
 
 @bot.tree.command(name="download-yt", description="Download a Youtube Audio/Video")
