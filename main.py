@@ -81,17 +81,28 @@ class SocialGroup(app_commands.Group):
         await ctx.response.send_message(f"Instagram: {'@' + username}", ephemeral=True)
 
     @app_commands.command()
-    async def coc(self, ctx: discord.Interaction, clashid: str, username: str):
+    async def coc(self, ctx: discord.Interaction, username: str, clashid: str):
         generate_social_doc(ctx.user.id)
 
         collection = get_database_collection("social")
 
-        data = [clashid if "#" in clashid else "#" + clashid, username]
+        data = [username, clashid if "#" in clashid else "#" + clashid]
 
         collection.update_one({"_id": ctx.user.id}, {"$set": {"coc": data}})
 
-        await ctx.response.send_message(f"Instagram: {' '.join(data)}", ephemeral=True)
+        await ctx.response.send_message(f"Clash of Clans: {' '.join(data)}", ephemeral=True)
 
+    @app_commands.command()
+    async def mlbb(self, ctx: discord.Interaction, username: str, userid: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("social")
+
+        data = [username, userid]
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"mlbb": data}})
+
+        await ctx.response.send_message(f"MLBB: {' '.join(data)}", ephemeral=True)
 
 
 
