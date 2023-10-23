@@ -119,6 +119,44 @@ class SocialGroup(app_commands.Group):
 
         await ctx.response.send_message(f"Valorant: {data}", ephemeral=True)
 
+    @app_commands.command()
+    async def github(self, ctx: discord.Interaction, username: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("social")
+
+        data = username
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"github": data}})
+
+        await ctx.response.send_message(f"Github: {data}", ephemeral=True)
+
+    @app_commands.command()
+    async def minecraft(self, ctx: discord.Interaction, username: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("social")
+
+        data = username
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"minecraft": data}})
+
+        await ctx.response.send_message(f"Minecraft IGN: {data}", ephemeral=True)
+
+    @app_commands.command()
+    async def steam(self, ctx: discord.Interaction, username: str, friendcode: str):
+        generate_social_doc(ctx.user.id)
+
+        collection = get_database_collection("social")
+
+        data = [username, friendcode]
+
+        collection.update_one({"_id": ctx.user.id}, {"$set": {"steam": data}})
+
+        await ctx.response.send_message(f"Steam: {' '.join(data)}", ephemeral=True)
+
+    
+
 
 @bot.event
 async def on_ready():
