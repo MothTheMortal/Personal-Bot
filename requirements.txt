@@ -1,14 +1,9 @@
 discord.py
 requests
-json
-time
-asyncio
-traceback
 pymongo
 python-dotenv
 pytube
 pytz
-io
 gTTS
 PyNaCl
 mcstatus
