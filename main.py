@@ -434,14 +434,14 @@ async def cat(ctx: commands.Context):
 
 
 @bot.command(name="snipe")
-async def snipe(ctx: commands.Context, count=0):
+async def snipe(ctx: commands.Context, count=1):
     snipe_channel = [channel for channel in ctx.guild.channels if channel.name == snipeName]
     if snipe_channel:
         snipe_channel = snipe_channel[0]
     else:
         return await ctx.send(f"channel `{snipeName}` not found!")
 
-    msg = [msg async for msg in snipe_channel.history()][count]
+    msg = [msg async for msg in snipe_channel.history()][count-1]
     if msg.attachments:
         await ctx.reply(files=[await f.to_file() for f in msg.attachments])
     else:
