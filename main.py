@@ -588,6 +588,48 @@ async def no_intro(ctx: commands.Context):
     await ctx.reply(", ".join(no_intro_member))
 
 
+@bot.tree.command(name="edit-introduction", description="Command to edit your introduction")
+@choices(question=[
+    Choice(name="Name", value="Name"),
+    Choice(name="Gender", value="Gender"),
+    Choice(name="Age", value="Age"),
+    Choice(name="Birthday", value="Birthday"),
+    Choice(name="Nationality", value="Nationality"),
+    Choice(name="Games", value="Games"),
+    Choice(name="Languages", value="Languages"),
+    Choice(name="Hobbies", value="Hobbies")
+])
+async def edit_introduction(ctx: discord.Interaction, question: Choice[str], answer: str):
+    await ctx.response.defer()
+
+    intro_channel = [channel for channel in ctx.guild.channels if channel.name == introName]
+    if intro_channel:
+        intro_channel = intro_channel[0]
+    else:
+        return await ctx.followup.send(f"Channel `{introName}` not found!")
+
+    message = [msg async for msg in intro_channel.history(limit=1000) if msg.embeds[0].author.name == ctx.user.name]
+    if not message:
+        return await ctx.followup.send("Are you fucking braindead? Make a fucking introduction first before trynna edit it jeez, wasting my time!")
+
+    message = message[0]
+    Embed = message.embeds[0]
+    embedDescriptionListed = message.embeds[0].description.split("\n")
+    for index, text in enumerate(embedDescriptionListed):
+        if f"**{question.name}:**" in text:
+            embedDescriptionListed[index] = f"**{question.name}:** {answer}"
+            break
+    editedEmbedDescription = "\n".join(embedDescriptionListed)
+    Embed.description = editedEmbedDescription
+
+    await message.edit(embed=Embed)
+    await ctx.followup.send(f"Introduction updated! {message.jump_url}")
+
+
+
+
+
+
 @bot.tree.command(name="introduce-yourself", description="Command to introduce yourself.")
 @choices(gender=[Choice(name="Male", value="male"), Choice(name="Female", value="female")])
 @discord.app_commands.describe(birthday="DD/MM/YYYY Format.")
