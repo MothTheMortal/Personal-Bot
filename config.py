@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 import random
 from PIL import Image, ImageDraw
 import discord
+import aiohttp
+
+
 
 # Initialization
 with open("word_data.txt", "r") as file:
@@ -410,3 +413,37 @@ def getRandomSpot(color=None):
         return colored_spot
     else:
         return spot
+
+
+async def acc_info(name:str, tag:str):
+    async with aiohttp.ClientSession() as session:
+        headers = {
+            'accept': 'application/json'
+        }
+        response = await session.get(f'https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}', headers = headers)
+        account_info = await response.json()
+    return account_info
+
+async def mmr_info_v1(puuid):
+    async with aiohttp.ClientSession() as session:
+        headers = {
+            'accept': 'application/json'
+        }
+        response = await session.get(f'https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/ap/{puuid}', headers = headers)
+        mmr_info = await response.json()
+    return mmr_info
+
+async def mmr_info_v2(puuid):
+    async with aiohttp.ClientSession() as session:
+        headers = {
+            'accept': 'application/json'
+        }
+        response = await session.get(f'https://api.henrikdev.xyz/valorant/v2/by-puuid/mmr/ap/{puuid}', headers = headers)
+        mmr_info = await response.json()
+    return mmr_info
+
+
+async def fetch_crosshair(id:str):
+    async with aiohttp.ClientSession() as session:
+        response = await session.get(f'https://api.henrikdev.xyz/valorant/v1/crosshair/generate?id={id}', headers={'accept': 'image/png'})
+    return response.url

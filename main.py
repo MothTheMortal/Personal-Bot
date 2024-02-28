@@ -14,6 +14,7 @@ import pytube
 import requests
 from mcstatus import JavaServer
 from config import *
+import config
 import time
 from PIL import Image, ImageDraw
 import pymongo
@@ -219,6 +220,68 @@ async def serverStatus():
 
     embed.set_footer(text="Refreshes every 30 seconds.")
     await msg.edit(content="", embed=embed)
+
+
+
+@bot.tree.command(name="val_info", description="Shows info about any Valorant Account")
+@app_commands.describe(name="Enter your Valorant Name")
+@app_commands.describe(tag="Enter your Valorant Tag")
+async def val_info(i: discord.Interaction, name: str, tag: str):
+    embed = discord.Embed(
+        color=discord.Color.from_str("#FD4556"),
+        title=f"{name}'s info"
+    )
+
+    await i.response.defer()
+
+    account_info = await config.acc_info(name, tag)
+
+    if account_info['status'] == 404:
+        embed.description = "## ERROR 404\n***Account not found. Please enter correct details***"
+        return await i.followup.send(embed=embed)
+
+    mmr_info = await config.mmr_info_v1(puuid=account_info['data']['puuid'])
+    match_info = await config.mmr_info_v2(puuid=account_info['data']['puuid'])
+
+    embed.add_field(name="Valorant Tag:",
+                    value=f"```{account_info['data']['name']}#{account_info['data']['tag']}```",
+                    inline=False)
+    embed.add_field(name="Level:",
+                    value=f"{account_info['data']['account_level']}",
+                    inline=True)
+    embed.add_field(name="Current Rank:",
+                    value=f"{mmr_info['data']['currenttierpatched']}",
+                    inline=True)
+    embed.add_field(
+        name="Highest Rank:",
+        value=f"{match_info['data']['highest_rank']['patched_tier']}",
+        inline=True)
+    embed.set_image(url=f"{account_info['data']['card']['wide']}")
+
+    # If Unranked and has no image
+    if mmr_info['data']['images'] != None:
+        embed.set_thumbnail(url=f"{mmr_info['data']['images']['large']}")
+    else:
+        embed.set_thumbnail(url=f"{account_info['data']['card']['small']}")
+
+    by_season = list(match_info['data']['by_season'])
+    for x in range(1, 4):
+        if "error" in match_info['data']['by_season'][by_season[-x]]:
+            embed.add_field(name=f"{(str(by_season[-x])).replace('e', 'Episode ').replace('a', ' Act ')}",
+                            value="No Games Played",
+                            inline=False)
+        else:
+
+            final_rank = match_info['data']['by_season'][by_season[-x]]['final_rank_patched']
+            total_matches = match_info['data']['by_season'][by_season[-x]]['number_of_games']
+            wins = match_info['data']['by_season'][by_season[-x]]['wins']
+            win_rate = round((wins / total_matches) * 100, 1)
+
+            embed.add_field(name=f"{(str(by_season[-x])).replace('e', 'Episode ').replace('a', ' Act ')}",
+                            value=f"Rank Achieved: **{final_rank}**\nTotal matches: **{total_matches}**\nWins: **{wins}**\nWin Rate: **{win_rate}%**",
+                            inline=False)
+
+    await i.followup.send(embed=embed)
 
 
 @bot.tree.command(name="play")
