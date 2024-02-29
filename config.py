@@ -423,7 +423,7 @@ async def acc_info(name:str, tag:str):
         response = await session.get(f'https://api.henrikdev.xyz/valorant/v1/account/{name}/{tag}', headers = headers)
         account_info = await response.json()
     return account_info
-    
+
 async def mmr_info_v1(puuid):
     async with aiohttp.ClientSession() as session:
         headers = {
