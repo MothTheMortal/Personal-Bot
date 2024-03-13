@@ -177,8 +177,8 @@ async def on_member_join(member: discord.Member):
     if member.guild.id not in [1145420194341204080]:
         return
 
-    member_role = member.guild.get_role(1154077513824354355)
-    await member.add_roles(member_role, reason="New Prisoner!")
+    # member_role = member.guild.get_role(1154077513824354355)
+    # await member.add_roles(member_role, reason="New Prisoner!")
     if member.bot:
         bot_role = member.guild.get_role(1145465466203152515)
         await member.add_roles(bot_role, reason="New Bot role!")
