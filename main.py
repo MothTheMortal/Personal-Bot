@@ -161,7 +161,7 @@ class SocialGroup(app_commands.Group):
 
 @bot.event
 async def on_ready():
-    serverStatus.start()
+    # serverStatus.start()
     print(f"{bot.user.name} is online.")
     print(f"{len(await bot.tree.sync())} commands loaded.")
 
