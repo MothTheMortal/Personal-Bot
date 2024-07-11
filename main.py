@@ -534,12 +534,12 @@ async def socials(ctx: commands.Context, user: discord.User = None):
 
     if user is None or (not isinstance(user, discord) and not isinstance(user, discord.Member)):
         user = ctx.author
-    
+
 
     generate_social_doc(user.id)
 
     collection = get_database_collection("social")
-    doc = collection.find_one({"_id": ctx.author.id})
+    doc = collection.find_one({"_id": user.id})
 
     description = ""
 
@@ -553,7 +553,7 @@ async def socials(ctx: commands.Context, user: discord.User = None):
     if description == "":
         description = "No socials here :("
 
-    embed = discord.Embed(title=f"{ctx.author.name}'s Socials", description=description, color=color_theme)
+    embed = discord.Embed(title=f"{user.name}'s Socials", description=description, color=color_theme)
     await ctx.channel.send(embed=embed)
 
 
