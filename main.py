@@ -168,7 +168,7 @@ async def on_ready():
     socialGroup = SocialGroup(name="social", description="test ")
     bot.tree.add_command(socialGroup)
 
-    await bot.tree.sync()
+    # await bot.tree.sync()
 
 
 
@@ -532,9 +532,8 @@ async def info(ctx: commands.Context):
 @bot.command(name="socials", aliases=["social"])
 async def socials(ctx: commands.Context, user: discord.User = None):
 
-    if user is None or (not isinstance(user, discord) and not isinstance(user, discord.Member)):
+    if user is None:
         user = ctx.author
-
 
     generate_social_doc(user.id)
 
