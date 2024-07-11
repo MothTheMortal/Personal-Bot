@@ -530,9 +530,13 @@ async def info(ctx: commands.Context):
 
 
 @bot.command(name="socials", aliases=["social"])
-async def socials(ctx: commands.Context):
+async def socials(ctx: commands.Context, user: discord.User = None):
 
-    generate_social_doc(ctx.author.id)
+    if user is None or (not isinstance(user, discord) and not isinstance(user, discord.Member)):
+        user = ctx.author
+    
+
+    generate_social_doc(user.id)
 
     collection = get_database_collection("social")
     doc = collection.find_one({"_id": ctx.author.id})
